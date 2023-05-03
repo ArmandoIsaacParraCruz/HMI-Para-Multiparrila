@@ -1,3 +1,4 @@
+
 #include <Arduino.h>
 #include "HMI.h"
 
@@ -13,7 +14,10 @@ void loop()
 {
   opcion = menuPrincipal();
   muestraMenuOpcionElegida(opcion);
+  enviarMensaje();
 }
+
+
 
 /*
 
@@ -32,43 +36,47 @@ void setup() {
 
 void loop() {}
 */
-
 /*
+
 //////////////////////////////////////////////TRANSMISOR///////////////////////////////////////////////////////////////////////////
 #include <Arduino.h>
 #include <WiFi.h>
 #include "ESPNowW.h"
-#include "PantallaTecladoComunicacion.h"
 
-uint8_t receiver_mac[] = {0x40, 0x91, 0x51, 0xAB , 0x1B, 0xC0};
+
+uint8_t mac_multiparrilla[] = {0x40, 0x91, 0x51, 0xAB , 0x1B, 0xC0};
+uint8_t mac_HMI[] = {0x0C, 0xB8, 0x15, 0xC1, 0x9A, 0xD4};
+
 uint8_t num;
+
+
+
+void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
+  Serial.print("\r\nEstatus del último Paquete enviado\t");
+  Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
+}
+
 void setup() {
     Serial.begin(115200);
-    Serial.println("ESPNow sender Demo");
-#ifdef ESP8266
-    WiFi.mode(WIFI_STA); // MUST NOT BE WIFI_MODE_NULL
-#elif ESP32
     WiFi.mode(WIFI_MODE_STA);
-#endif
+    ESPNow.set_mac(mac_HMI);
     WiFi.disconnect();
     ESPNow.init();
-    ESPNow.add_peer(receiver_mac);
+    ESPNow.reg_send_cb(OnDataSent);
+    ESPNow.add_peer(mac_multiparrilla);
     num = 33;
 }
 
 void loop() {
     uint8_t a[] = {'C','a', 'r','a','c','t','e','r',':',' ', (char)num};
     delay(100);
-    ESPNow.send_message(receiver_mac, a, sizeof(a));
-    for(int i = 0; i < sizeof(a); ++i)
-        Serial.printf("%c",a[i]);
-    Serial.print("  ");Serial.println(num);
+    ESPNow.send_message(mac_multiparrilla, a, sizeof(a));
     num++;
     if(num > 126)
         num = 33;
 }
-
 */
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
 //////////////////////////////////////////////RECEPTOR///////////////////////////////////////////////////////////////////////////
@@ -80,15 +88,15 @@ void loop() {
 #endif
 #include "ESPNowW.h"
 
-uint8_t mac[] = {0x36, 0x33, 0x33, 0x33, 0x33, 0x33};
+uint8_t mac_multiparrilla[] = {0x40, 0x91, 0x51, 0xAB , 0x1B, 0xC0};
+uint8_t mac_HMI[] = {0x0C, 0xB8, 0x15, 0xC1, 0x9A, 0xD4};
+
+void confirmarRecepcion(){
+    uint8_t recibido[] = {'R','E', 'C','I','B','I','D','O'};
+    ESPNow.send_message(mac_HMI, recibido, sizeof(recibido));
+}
 
 void onRecv(const uint8_t *mac_addr, const uint8_t *data, int data_len) {
-    char macStr[18];
-    snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
-             mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4],
-             mac_addr[5]);
-    Serial.print("Last Packet Recv from: ");
-    Serial.println(macStr);
     Serial.print("Last Packet Recv Data: ");
     // if it could be a string, print as one
     if (data[data_len - 1] == 0)
@@ -97,24 +105,22 @@ void onRecv(const uint8_t *mac_addr, const uint8_t *data, int data_len) {
     for (int i = 0; i < data_len; i++) {
         Serial.printf("%c", data[i]);
     }
+    Serial.println(" ");
+    confirmarRecepcion();
 }
 
 void setup() {
     Serial.begin(115200);
     Serial.println("ESPNow receiver Demo");
-#ifdef ESP8266
-    WiFi.mode(WIFI_STA); // MUST NOT BE WIFI_MODE_NULL
-#elif ESP32
     WiFi.mode(WIFI_MODE_STA);
-#endif
-    ESPNow.set_mac(mac);
+    ESPNow.set_mac(mac_multiparrilla);
     WiFi.disconnect();
     ESPNow.init();
     ESPNow.reg_recv_cb(onRecv);
+    ESPNow.add_peer(mac_HMI);
 }
 
 void loop() {}
-
+*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-*/

@@ -82,7 +82,7 @@ void muestraEstadoDelEnlace(const bool conectado)
 {
 	String respuesta; 
 	uint32_t x,  y = 85, tam, color, font = 4;
-	if(true){
+	if(conectado){
 		color = MY_GREEN;
 		respuesta = "CONECTADO";
 		x = 80;

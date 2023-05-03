@@ -29,8 +29,4 @@ void configAgitacionCalentamiento();
 void monitorearMultiparrilla();
 void menuEstadoDelEnlace();
 
-
-
-
-
 #endif
