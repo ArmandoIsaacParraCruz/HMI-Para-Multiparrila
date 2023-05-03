@@ -49,11 +49,20 @@ bool obtenerEstadoDelEnlace()
 {
     recibido = false;
     enviarMensaje();
-    delay(10);
+    espera(30);
     esp_now_register_send_cb([](const uint8_t* mac, esp_now_send_status_t status) {
         status == ESP_NOW_SEND_SUCCESS ? recibido = true : recibido = false;
         Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
     });
     Serial.print("Recibido "); Serial.println(recibido);
     return recibido;
+}
+
+
+void espera(uint16_t tiempoDeEsperaEnMilisegundos)
+{
+    unsigned long tiempoDeInicio = millis();
+    while(millis() - tiempoDeInicio <= tiempoDeEsperaEnMilisegundos){
+        continue;
+    }
 }

@@ -14,7 +14,6 @@ void loop()
 {
   opcion = menuPrincipal();
   muestraMenuOpcionElegida(opcion);
-  enviarMensaje();
 }
 
 

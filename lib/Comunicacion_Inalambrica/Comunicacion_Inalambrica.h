@@ -12,6 +12,7 @@ void recibirMensaje(const uint8_t *, const uint8_t *, int);
 bool obtenerEstadoDelEnlace();
 void mensajeRecibidoPorElReceptor(const uint8_t *, esp_now_send_status_t );
 void enviarMensaje();
+void espera(uint16_t);
 
 
 
