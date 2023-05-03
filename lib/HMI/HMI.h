@@ -1,15 +1,10 @@
 #ifndef HMI_h
 #define HMI_h
 #include <Arduino.h>
-#include <esp_now.h>
-#include <esp_wifi.h>
 #include <queue> 
 #include "Pantalla.h"
 #include "Teclado.h"
-
-
-
-
+#include "Comunicacion_Inalambrica.h"
 
 struct motor{  
     bool activado;                                      //Activa o desactiva un motor al inicio de la configuración de los motores.
@@ -33,6 +28,7 @@ void menuEstadoDelEnlace();
 void configAgitacionCalentamiento();
 void monitorearMultiparrilla();
 void menuEstadoDelEnlace();
+
 
 
 

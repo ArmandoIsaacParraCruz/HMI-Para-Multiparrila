@@ -15,5 +15,7 @@ void colocaElementosEstaticosMenuPrincipal();
 void escribeTextoOpcionesMenuPrincipal();
 void resaltaOpcionMenuPrincipal(uint8_t );
 void muestraMenuOpcionElegida(uint8_t);
+void colocaElementosEstaticosMenuEstadoDelEncale();
+void muestraEstadoDelEnlace(bool);
 
 #endif

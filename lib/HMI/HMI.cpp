@@ -34,7 +34,7 @@ uint8_t menuPrincipal(){
   		resaltaOpcionMenuPrincipal(opcion);
     	escribeTextoOpcionesMenuPrincipal();
     
-    	caracter = teclado.getKey();
+    	caracter = NO_KEY;
     	while(caracter == NO_KEY){
       		caracter = teclado.getKey();
       		if(caracter != 'C' && caracter != 'D' && caracter != 'A')
@@ -53,8 +53,6 @@ uint8_t menuPrincipal(){
       		opcion = 1;  
     	else if(opcion < 1)
       		opcion = 3;
-
-    	Serial.println(opcion);
   }
   return opcion;  
 }
@@ -77,7 +75,32 @@ void muestraMenuOpcionElegida(uint8_t opcion)
   }
 }
 
+
+void configAgitacionCalentamiento()
+{
+	
+}
+
+void monitorearMultiparrilla()
+{
+}
+
 void menuEstadoDelEnlace()
 {
-  
+	colocaElementosEstaticosMenuEstadoDelEncale();
+	char caracter = NO_KEY;
+	bool conectado = obtenerEstadoDelEnlace();
+	muestraEstadoDelEnlace(conectado);
+	while(caracter == NO_KEY){
+    	caracter = teclado.getKey();
+		if(caracter == 'A'){
+			bool conectado = obtenerEstadoDelEnlace();
+			muestraEstadoDelEnlace(conectado);
+			caracter = NO_KEY;
+		}
+		else if(caracter != 'B')
+        	caracter = NO_KEY;
+    }
 }
+
+

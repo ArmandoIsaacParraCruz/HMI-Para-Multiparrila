@@ -9,10 +9,10 @@ void setup() {
 	Serial.begin(115200);
 }
 
-void loop() 
+void loop()
 {
   opcion = menuPrincipal();
-  Serial.println(opcion);
+  muestraMenuOpcionElegida(opcion);
 }
 
 /*
