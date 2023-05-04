@@ -69,6 +69,29 @@ void escribeTextoOpcionesMenuPrincipal()
     pantalla.drawString("ESTADO DEL ENLACE",70, 172);
 }
 
+void colocaElementosEstaticosMenuConfigAgitacionCalentamiento()
+{
+	muestraImagenMultiparrilla();
+	uint32_t posX = 20;
+	for(uint8_t i = 0; i < 6; ++i, posX+=50){
+		pantalla.fillRect(posX, 6, 30, 30, MY_SILVER);
+		pantalla.drawString((String)(i+1),posX + 4, 10);
+	}
+		
+}
+
+void muestraImagenMultiparrilla()
+{
+	int32_t imagenX = 10,imagenY = 0;
+	pantalla.fillScreen(MY_SKYBLUE);
+	pantalla.pushImage(imagenX, imagenY, multiparrillaImagenAncho, multiparrillaImagenAlto, multiparrillaImagen);
+	pantalla.setFreeFont(FF47);
+	pantalla.setTextColor(MY_BLACK);
+//	pantalla.drawString("LCAR", txtX, txtY, GFXFF);
+
+}
+
+
 void colocaElementosEstaticosMenuEstadoDelEncale()
 {
 	pantalla.fillScreen(MY_SKYBLUE);

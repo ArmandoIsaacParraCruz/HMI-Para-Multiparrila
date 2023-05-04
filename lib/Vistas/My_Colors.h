@@ -1,3 +1,5 @@
+#ifndef My_Colors_h
+#define Mycolors_h
 #include <pgmspace.h>
 
 #define MY_BLACK       0x0000 	// NEGRO
@@ -19,3 +21,5 @@
 #define MY_LIGHTPINK   0xFE19   // ROSA CLARO
 #define MY_SILVER      0xC618   // PLATEADO 
 #define MY_VIOLET      0x915C   // VIOLETA
+
+#endif

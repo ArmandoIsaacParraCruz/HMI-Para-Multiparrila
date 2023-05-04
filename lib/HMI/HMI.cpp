@@ -1,4 +1,5 @@
 #include "HMI.h"
+#include "Pantalla.h"
 
 motor motores[6]; 
 
@@ -73,11 +74,21 @@ void muestraMenuOpcionElegida(uint8_t opcion)
 
 void configAgitacionCalentamiento()
 {
-	return;
+	colocaElementosEstaticosMenuConfigAgitacionCalentamiento();
+	char caracter = NO_KEY;
+	while(caracter == NO_KEY){
+    	caracter = teclado.getKey();
+		if(caracter == 'A'){
+			caracter = NO_KEY;
+		}
+		else if(caracter != 'B')
+        	caracter = NO_KEY;
+    }
 }
 
 void monitorearMultiparrilla()
 {
+
 }
 
 void menuEstadoDelEnlace()
