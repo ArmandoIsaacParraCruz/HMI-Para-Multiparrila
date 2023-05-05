@@ -26,7 +26,9 @@ void inicializaHMI();
 uint8_t menuPrincipal();
 void menuEstadoDelEnlace();
 void configAgitacionCalentamiento();
+void configuracionGrupal();
+void configuracionIndividual();
+void configurarRutinaGrupal();
 void monitorearMultiparrilla();
 void menuEstadoDelEnlace();
-
 #endif
