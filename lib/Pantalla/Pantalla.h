@@ -20,6 +20,11 @@ void resaltaOpcionMenuPrincipal(uint8_t );
 void muestraMenuOpcionElegida(uint8_t);
 void colocaElementosEstaticosMenuConfigAgitacionCalentamiento();
 void muestraImagenMultiparrilla();
+void resaltaOpcionMenuConfigAgitacionCalentamiento(uint8_t);
+void escribeTextoOpcionesMenuConfigCalentamiento();
+void colocaElementosEstaticosPreguntaActivarSensorInfrarrojo();
+void resaltaOpcionActivarSensorInfrarrojo(uint8_t);
+void escribeTextoOpcionesActivarSensorInfrarrojo();
 void colocaElementosEstaticosMenuEstadoDelEncale();
 void muestraEstadoDelEnlace(bool);
 

@@ -74,16 +74,85 @@ void muestraMenuOpcionElegida(uint8_t opcion)
 
 void configAgitacionCalentamiento()
 {
+	
 	colocaElementosEstaticosMenuConfigAgitacionCalentamiento();
-	char caracter = NO_KEY;
-	while(caracter == NO_KEY){
-    	caracter = teclado.getKey();
-		if(caracter == 'A'){
-			caracter = NO_KEY;
+	
+	uint8_t opcion = 1; char caracter;
+	while(true){
+		resaltaOpcionMenuConfigAgitacionCalentamiento(opcion);
+    	escribeTextoOpcionesMenuConfigCalentamiento();
+		caracter = NO_KEY;
+
+    	while(caracter == NO_KEY){
+      		caracter = teclado.getKey();
+      		if(caracter != 'C' && caracter != 'D' && caracter != 'A' && caracter != 'B')
+        		caracter = NO_KEY;
+    	}
+    
+    	if(caracter == 'C')
+      		opcion--;
+    	else if(caracter == 'D')
+    		opcion++;
+		else if(caracter == 'A'){
+			if(opcion == 1)
+				configuracionGrupal();
+			else
+				configuracionIndividual();
 		}
-		else if(caracter != 'B')
-        	caracter = NO_KEY;
+    	else if(caracter == 'B')
+    		break;
+    
+
+    	if(opcion > 2)
+      		opcion = 1;  
+    	else if(opcion < 1)
+      		opcion = 2;
     }
+}
+
+void configuracionGrupal()
+{
+	colocaElementosEstaticosPreguntaActivarSensorInfrarrojo();
+	uint8_t opcion = 1; bool activarSensorInfrarrojo; char caracter;
+	while(true){
+		resaltaOpcionActivarSensorInfrarrojo(opcion);
+    	escribeTextoOpcionesActivarSensorInfrarrojo();
+		caracter = NO_KEY;
+    	while(caracter == NO_KEY){
+      		caracter = teclado.getKey();
+      		if(caracter != 'C' && caracter != 'D' && caracter != 'A' && caracter != 'B')
+        		caracter = NO_KEY;
+    	}
+    
+    	if(caracter == 'C')
+      		opcion--;
+    	else if(caracter == 'D')
+    		opcion++;
+		else if(caracter == 'A'){
+			if(opcion == 1)
+				delay(1); //activar sensor infrarrojo
+			else
+				delay(1);//desactivar sensor infrarrojo
+			configurarRutinaGrupal();
+		}
+    	else if(caracter == 'B')
+    		break;
+    
+
+    	if(opcion > 2)
+      		opcion = 1;  
+    	else if(opcion < 1)
+      		opcion = 2;
+    }
+}
+
+void configuracionIndividual()
+{
+
+}
+
+void configurarRutinaGrupal()
+{
 }
 
 void monitorearMultiparrilla()
