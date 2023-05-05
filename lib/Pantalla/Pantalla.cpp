@@ -123,7 +123,13 @@ void escribeTextoOpcionesMenuConfigCalentamiento()
 
 void colocaElementosEstaticosConfiguracionGrupal()
 {
-	pantalla.fillRect(40, 90, 250, 110, MY_WHITE);
+	uint32_t x1_1 = 30,y1_1 = 220, x2_1 = 30, y2_1 = 230, x3_1 = 40, y3_1 = 225,
+         	 x1_2 = 85,y1_2 = 220, x2_2 = 85, y2_2 = 230, x3_2 = 75, y3_2 = 225;
+	pantalla.fillRect(40, 90, 250, 50, MY_WHITE);
+	pantalla.fillRect(30,220, 10, 15, MY_SKYBLUE);
+	pantalla.fillRect(75,220, 10, 15, MY_SKYBLUE);
+	pantalla.fillTriangle(x1_1, y1_1, x2_1, y2_1, x3_1, y3_1, MY_BLACK);
+	pantalla.fillTriangle(x1_2, y1_2, x2_2, y2_2, x3_2, y3_2, MY_BLACK);
 }
 
 
@@ -167,7 +173,7 @@ void escribeTextoOpcionesActivarDesactivarPlaza(uint8_t plaza)
 void colocaElementosEstaticosPreguntaSiActivarSensorInfrarrojo()
 {
     pantalla.fillRect(40, 90, 250, 50, MY_WHITE);
-	pantalla.drawString("SENSOR INFRARROJO", 80, 108);
+	pantalla.drawString("SENSOR DE TEMPERATURA", 50, 108);
 }
 
 void resaltaOpcionActivarDesactivarSensorInfrarrojo(uint8_t opcion)
@@ -186,8 +192,8 @@ void resaltaOpcionActivarDesactivarSensorInfrarrojo(uint8_t opcion)
 
 void escribeTextoOpcionesActivarDesactivarSensorInfrarrojo()
 {
-	pantalla.drawString("ACTIVAR", 65, 168);
-    pantalla.drawString("DESACTIVAR", 170, 168);
+	pantalla.drawString("INFRARROJO", 50, 168);
+    pantalla.drawString("TERMOPAR", 180, 168);
 }
 
 void colocaElementosEstaticosMenuEstadoDelEncale()
@@ -215,4 +221,24 @@ void muestraEstadoDelEnlace(const bool conectado)
 	}
 	pantalla.fillRect(50, 35, 230, 120, color);
 	pantalla.drawString(respuesta, x, y, font);
+}
+
+void colocaElementosEstaticosFuncTemperatura()
+{
+	pantalla.fillRect(10, 90, 300, 120, MY_WHITE);
+	pantalla.setFreeFont(TT1);
+	pantalla.drawString("FUNC. DE TEMPERATURA:", 11, 90, FONT2);
+}
+
+
+void escribeTextoOpcionesFuncTemperatura(uint8_t opcion)
+{
+	if(opcion == 1){
+		pantalla.fillRect(175, 91, 125, 15, MY_GREEN);
+		pantalla.drawString("CONSTANTE", 200, 90, FONT2);
+	}else
+	{
+		pantalla.fillRect(175, 91, 125, 15, MY_YELLOW);
+		pantalla.drawString("RAMPA", 210, 90, FONT2);
+	}
 }

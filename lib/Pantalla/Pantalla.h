@@ -28,6 +28,8 @@ void escribeTextoOpcionesActivarDesactivarPlaza(uint8_t);
 void colocaElementosEstaticosPreguntaSiActivarSensorInfrarrojo();
 void resaltaOpcionActivarDesactivarSensorInfrarrojo(uint8_t);
 void escribeTextoOpcionesActivarDesactivarSensorInfrarrojo();
+void colocaElementosEstaticosFuncTemperatura();
+void escribeTextoOpcionesFuncTemperatura(uint8_t);
 void colocaElementosEstaticosMenuEstadoDelEncale();
 void muestraEstadoDelEnlace(bool);
 

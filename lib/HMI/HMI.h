@@ -27,9 +27,9 @@ uint8_t menuPrincipal();
 void configAgitacionCalentamiento();
 void configuracionIndividual();
 
-void configurarRutinaGrupal();
 void configuracionGrupal();
 void activarDesactivarSensorInfrarrojo();
+void configurarFuncTemperatura();
 
 void monitorearMultiparrilla();
 void menuEstadoDelEnlace();

@@ -113,7 +113,7 @@ void configAgitacionCalentamiento()
 
 void configuracionGrupal()
 {
-
+	colocaElementosEstaticosConfiguracionGrupal();
 	for(uint8_t plaza = 1; plaza <= 6; ++plaza){
 		uint8_t opcion = 1; char caracter;//plazas[plaza].activar;
 		while (true)
@@ -181,7 +181,7 @@ void activarDesactivarSensorInfrarrojo()
 				delay(1); //activar sensor infrarrojo
 			else
 				delay(1);//desactivar sensor infrarrojo
-			configurarRutinaGrupal();
+			configurarFuncTemperatura();
 			break;
 		}
     	else if(caracter == 'B')
@@ -195,9 +195,40 @@ void activarDesactivarSensorInfrarrojo()
     }
 }
 
-void configurarRutinaGrupal()
+void configurarFuncTemperatura()
 {
-	//colocaElementosEstaticosMenuConfigurarRutinaGrupal();
+	colocaElementosEstaticosFuncTemperatura();
+	char caracter; uint8_t opcion; 
+	while(true){
+    	escribeTextoOpcionesFuncTemperatura(opcion);
+		caracter = NO_KEY;
+    	while(caracter == NO_KEY){
+      		caracter = teclado.getKey();
+      		if(caracter != 'C' && caracter != 'D' && caracter != 'A' && caracter != 'B')
+        		caracter = NO_KEY;
+    	}
+    
+    	if(caracter == 'C')
+      		opcion--;
+    	else if(caracter == 'D')
+    		opcion++;
+		else if(caracter == 'A'){
+			if(opcion == 1)
+				delay(1); //activar sensor infrarrojo
+			else
+				delay(1);//desactivar sensor infrarrojo
+			//configurarRutinaGrupal();
+			break;
+		}
+    	else if(caracter == 'B')
+    		break;
+    
+
+    	if(opcion > 2)
+      		opcion = 1;  
+    	else if(opcion < 1)
+      		opcion = 2;
+    }
 	return;
 }
 
