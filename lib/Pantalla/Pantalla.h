@@ -22,9 +22,12 @@ void colocaElementosEstaticosMenuConfigAgitacionCalentamiento();
 void muestraImagenMultiparrilla();
 void resaltaOpcionMenuConfigAgitacionCalentamiento(uint8_t);
 void escribeTextoOpcionesMenuConfigCalentamiento();
-void colocaElementosEstaticosPreguntaActivarSensorInfrarrojo();
-void resaltaOpcionActivarSensorInfrarrojo(uint8_t);
-void escribeTextoOpcionesActivarSensorInfrarrojo();
+void colocaElementosEstaticosConfiguracionGrupal();
+void resaltaOpcionActivarDesactivarPlaza(uint8_t, uint8_t);
+void escribeTextoOpcionesActivarDesactivarPlaza(uint8_t);
+void colocaElementosEstaticosPreguntaSiActivarSensorInfrarrojo();
+void resaltaOpcionActivarDesactivarSensorInfrarrojo(uint8_t);
+void escribeTextoOpcionesActivarDesactivarSensorInfrarrojo();
 void colocaElementosEstaticosMenuEstadoDelEncale();
 void muestraEstadoDelEnlace(bool);
 
