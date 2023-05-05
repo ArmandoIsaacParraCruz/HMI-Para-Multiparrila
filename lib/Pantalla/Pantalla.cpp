@@ -110,7 +110,7 @@ void resaltaOpcionMenuConfigAgitacionCalentamiento(uint8_t opcion)
     		color = MY_YELLOW;
     	else
       		color = MY_WHITE;
-    
+	
     	pantalla.fillRect(posX,posY + separacion,ancho,alto, color);
 	}
 
@@ -121,13 +121,56 @@ void escribeTextoOpcionesMenuConfigCalentamiento()
     pantalla.drawString("CONFIG. INDIVIDUAL", 65, 168);
 }
 
-void colocaElementosEstaticosPreguntaActivarSensorInfrarrojo()
+void colocaElementosEstaticosConfiguracionGrupal()
+{
+	pantalla.fillRect(40, 90, 250, 110, MY_WHITE);
+}
+
+
+void resaltaOpcionActivarDesactivarPlaza(uint8_t opcion, uint8_t plaza)
+{
+	uint32_t posX = 45,posY = 155, ancho = 120, alto = 40, separacion = 0, color, colorPlaza, posNumX = 20, separacionNum = 50;
+	for(uint8_t i = 1; i <= 2; ++i, separacion += 120){
+		if(i == opcion){
+			color = MY_YELLOW;
+			colorPlaza = MY_GREY;
+		}
+    		
+    	else{
+			color = MY_WHITE;
+			colorPlaza = MY_GREEN;
+		}
+
+    	pantalla.fillRect(posX + separacion,posY,ancho,alto, color);
+	}
+	
+	pantalla.setFreeFont(FF47);
+	posNumX += separacionNum * (plaza - 1);
+	pantalla.fillRect(posNumX, 6, 30, 30, colorPlaza);
+	pantalla.drawString((String)(plaza),posNumX + 4, 10);
+	
+	pantalla.setFreeFont(FMB9);
+	pantalla.drawString("ACTIVAR", 65, 168);
+    pantalla.drawString("DESACTIVAR", 170, 168);
+
+}
+
+
+
+void escribeTextoOpcionesActivarDesactivarPlaza(uint8_t plaza)
+{
+	pantalla.fillRect(40, 90, 250, 50, MY_WHITE);
+	pantalla.drawString("PLAZA:", 110, 108);
+	pantalla.drawString((String)(plaza), 200, 108);
+}
+
+void colocaElementosEstaticosPreguntaSiActivarSensorInfrarrojo()
 {
     pantalla.fillRect(40, 90, 250, 50, MY_WHITE);
 	pantalla.drawString("SENSOR INFRARROJO", 80, 108);
 }
 
-void resaltaOpcionActivarSensorInfrarrojo(uint8_t opcion)
+void resaltaOpcionActivarDesactivarSensorInfrarrojo(uint8_t opcion)
 {
 	uint32_t posX = 45,posY = 155, ancho = 120, alto = 40, separacion = 0, color;
 
@@ -141,7 +184,7 @@ void resaltaOpcionActivarSensorInfrarrojo(uint8_t opcion)
 	}
 }
 
-void escribeTextoOpcionesActivarSensorInfrarrojo()
+void escribeTextoOpcionesActivarDesactivarSensorInfrarrojo()
 {
 	pantalla.drawString("ACTIVAR", 65, 168);
     pantalla.drawString("DESACTIVAR", 170, 168);

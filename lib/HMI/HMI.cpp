@@ -98,6 +98,7 @@ void configAgitacionCalentamiento()
 				configuracionGrupal();
 			else
 				configuracionIndividual();
+			return;
 		}
     	else if(caracter == 'B')
     		break;
@@ -112,11 +113,58 @@ void configAgitacionCalentamiento()
 
 void configuracionGrupal()
 {
-	colocaElementosEstaticosPreguntaActivarSensorInfrarrojo();
+
+	for(uint8_t plaza = 1; plaza <= 6; ++plaza){
+		uint8_t opcion = 1; char caracter;//plazas[plaza].activar;
+		while (true)
+		{
+			resaltaOpcionActivarDesactivarPlaza(opcion, plaza);
+			escribeTextoOpcionesActivarDesactivarPlaza(plaza);
+			caracter = NO_KEY;
+    		while(caracter == NO_KEY){
+      			caracter = teclado.getKey();
+      			if(caracter != 'C' && caracter != 'D' && caracter != 'A' && caracter != 'B')
+        			caracter = NO_KEY;
+    		}
+    
+    		if(caracter == 'C')
+      			opcion--;
+    		else if(caracter == 'D')
+    			opcion++;
+			else if(caracter == 'A'){
+				if(opcion == 1)
+					delay(1); //activar plaza
+				else
+					delay(1);//desactivar plaza
+				break;
+			}
+    		else if(caracter == 'B'){
+				if(plaza == 1){
+					configAgitacionCalentamiento();					
+					return;
+				}	
+				plaza-=2;
+				break;
+			}
+    
+
+    		if(opcion > 2)
+      			opcion = 1;  
+    		else if(opcion < 1)
+      			opcion = 2;
+    	}
+	}
+	activarDesactivarSensorInfrarrojo();
+}
+	
+
+void activarDesactivarSensorInfrarrojo()
+{
+	colocaElementosEstaticosPreguntaSiActivarSensorInfrarrojo();
 	uint8_t opcion = 1; bool activarSensorInfrarrojo; char caracter;
 	while(true){
-		resaltaOpcionActivarSensorInfrarrojo(opcion);
-    	escribeTextoOpcionesActivarSensorInfrarrojo();
+		resaltaOpcionActivarDesactivarSensorInfrarrojo(opcion);
+    	escribeTextoOpcionesActivarDesactivarSensorInfrarrojo();
 		caracter = NO_KEY;
     	while(caracter == NO_KEY){
       		caracter = teclado.getKey();
@@ -134,6 +182,7 @@ void configuracionGrupal()
 			else
 				delay(1);//desactivar sensor infrarrojo
 			configurarRutinaGrupal();
+			break;
 		}
     	else if(caracter == 'B')
     		break;
@@ -146,14 +195,20 @@ void configuracionGrupal()
     }
 }
 
+void configurarRutinaGrupal()
+{
+	//colocaElementosEstaticosMenuConfigurarRutinaGrupal();
+	return;
+}
+
+
+
 void configuracionIndividual()
 {
 
 }
 
-void configurarRutinaGrupal()
-{
-}
+
 
 void monitorearMultiparrilla()
 {

@@ -24,11 +24,13 @@ extern motor motores[6];  //Se crea un arreglo de 6 plazas llamado multiHeaterSt
 void inicializaPlatosYMotores();
 void inicializaHMI();
 uint8_t menuPrincipal();
-void menuEstadoDelEnlace();
 void configAgitacionCalentamiento();
-void configuracionGrupal();
 void configuracionIndividual();
+
 void configurarRutinaGrupal();
+void configuracionGrupal();
+void activarDesactivarSensorInfrarrojo();
+
 void monitorearMultiparrilla();
 void menuEstadoDelEnlace();
 #endif
