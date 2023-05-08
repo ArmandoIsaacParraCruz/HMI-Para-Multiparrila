@@ -45,11 +45,13 @@ void resaltar_opcion_en_posicion_actual_del_menu_principal(uint8_t opcion)
 {
 	uint32_t posX = 50,posY = 15, ancho = 230, alto = 50, separacion = 0, color;
 
-	for(uint8_t i = 1; i <= 3; ++i, separacion += 70){
-		if(i == opcion)
-    		color = MY_YELLOW;
-    	else
-      		color = MY_WHITE;
+	for(uint8_t i = 1; i <= 3; ++i, separacion += 70) {
+		if(i == opcion) {
+			color = MY_YELLOW;
+		} else {
+			color = MY_WHITE;
+		} 
+      		
     
     	pantalla.fillRect(posX,posY + separacion,ancho,alto, color);
 	}
@@ -72,7 +74,7 @@ void colocar_elementos_de_fondo_del_menu_configurar_agitacion_y_calentamiento()
 {
 	mostrar_imagen_multiparrilla();
 	uint32_t posX = 20;
-	for(uint8_t i = 0; i < 6; ++i, posX+=50){
+	for(uint8_t i = 0; i < 6; ++i, posX+=50) {
 		pantalla.fillRect(posX, 6, 30, 30, MY_SILVER);
 		pantalla.drawString((String)(i+1),posX + 4, 6);
 	}
@@ -106,12 +108,12 @@ void resaltar_opcion_en_posicion_actual_del_menu_configurar_agitacion_y_calentam
 {
 	uint32_t posX = 45,posY = 95, ancho = 240, alto = 40, separacion = 0, color;
 	pantalla.fillRect(40, 90, 250, 50, MY_BLACK);
-	for(uint8_t i = 1; i <= 2; ++i, separacion += 60){
-		if(i == opcion)
-    		color = MY_YELLOW;
-    	else
-      		color = MY_WHITE;
-	
+	for(uint8_t i = 1; i <= 2; ++i, separacion += 60) {
+		if(i == opcion) {
+			color = MY_YELLOW;
+		} else {
+			color = MY_WHITE;
+		}
     	pantalla.fillRect(posX,posY + separacion,ancho,alto, color);
 	}
 
@@ -123,22 +125,34 @@ void mostrar_opciones_del_menu_configurar_agitacion_y_calentamiento()
     pantalla.drawString("CONFIG. INDIVIDUAL", 65, 168);
 }
 
-void colocar_elementos_de_fondo_del_menu_activar_o_desactivar_plazas()
+void colocar_elementos_de_fondo_del_menu_activar_o_desactivar_plazas(bool *plazas_activadas, const uint8_t cantidad_de_plazas)
 {
-	uint32_t x1_1 = 30,y1_1 = 220, x2_1 = 30, y2_1 = 230, x3_1 = 40, y3_1 = 225,
-         	 x1_2 = 85,y1_2 = 220, x2_2 = 85, y2_2 = 230, x3_2 = 75, y3_2 = 225;
-	pantalla.fillRect(10,90, 300, 120, MY_SKYBLUE);
+	pantalla.fillScreen(MY_SKYBLUE);
+	mostrar_imagen_multiparrilla();
+	uint32_t posX = 17, color;
+	pantalla.setFreeFont(FF47);
+	for(uint8_t i = 0; i < cantidad_de_plazas; ++i, posX+=50) {
+		if(plazas_activadas[i]) {
+			color = MY_GREEN;
+		} else {
+			color = MY_SILVER;
+		}
+		pantalla.fillRect(posX, 3, 36, 36, color);
+		pantalla.drawString((String)(i+1),posX + 7, 6);
+	}
+
+	uint32_t x1_1 = 223,y1_1 = 222, x2_1 = 223, y2_1 = 232, x3_1 = 233, y3_1 = 227,
+         	 x1_2 = 220,y1_2 = 222, x2_2 = 220, y2_2 = 232, x3_2 = 210, y3_2 = 227;
 	pantalla.fillRect(40, 150, 250, 50, MY_BLACK);
-	pantalla.fillRect(40, 90, 250, 50, MY_WHITE);
-	pantalla.fillRect(30,220, 10, 15, MY_SKYBLUE);
-	pantalla.fillRect(75,220, 10, 15, MY_SKYBLUE);
 	pantalla.fillTriangle(x1_1, y1_1, x2_1, y2_1, x3_1, y3_1, MY_BLACK);
 	pantalla.fillTriangle(x1_2, y1_2, x2_2, y2_2, x3_2, y3_2, MY_BLACK);
-	uint32_t posX = 20;pantalla.setFreeFont(FF47);
-	for(uint8_t i = 0; i < 6; ++i, posX+=50){
-		pantalla.fillRect(posX, 6, 30, 30, MY_SILVER);
-		pantalla.drawString((String)(i+1),posX + 4, 6);
-	}
+
+	pantalla.setFreeFont(FMB9);
+	pantalla.setTextColor(MY_BLACK);
+	pantalla.drawString("A:ELEGIR", 10, 205);
+	pantalla.drawString("B:REGRESAR", 10, 220);
+	pantalla.drawString("C:CONTINUAR", 190, 205);
+	pantalla.drawString("D:", 190, 220);
 }
 
 void desplegar_mensaje_de_que_no_se_ha_activado_ninguna_plaza()
@@ -150,31 +164,50 @@ void desplegar_mensaje_de_que_no_se_ha_activado_ninguna_plaza()
 	pantalla.drawString("OPRIMA (B) PARA CONTINUAR", 62,150, FONT2);
 }
 
-void resaltar_opcion_en_posicion_actual_del_menu_activar_o_desactivar_plazas(uint8_t opcion, uint8_t plaza)
+void resaltar_opcion_en_posicion_actual_del_menu_activar_o_desactivar_plazas(bool *plazas_activadas, uint8_t indice_plaza_actual, const uint8_t cantidad_de_plazas)
 {
-	uint32_t posX = 45,posY = 155, ancho = 120, alto = 40, separacion = 0, color, colorPlaza, posNumX = 20, separacionNum = 50;
-	for(uint8_t i = 1; i <= 2; ++i, separacion += 120){
-		if(i == opcion){
-			color = MY_YELLOW;
-			colorPlaza = MY_GREEN;
-		}
-    		
-    	else{
-			color = MY_WHITE;
-			colorPlaza = MY_GREY;
-		}
+	uint32_t x = 20, color_recuadro_numero, color_recuadro_texto;
+	uint8_t indice_plaza_anterior, espacio_texto_activar_o_desactivar;
+	String texto_opcion_activar_o_desactivar, texto_estado_de_la_plaza;
+	if(indice_plaza_actual == 0) {
+		indice_plaza_anterior = cantidad_de_plazas - 1;
+	} else {
+		indice_plaza_anterior = indice_plaza_actual - 1;
+	}
 
-    	pantalla.fillRect(posX + separacion,posY,ancho,alto, color);
+    if(plazas_activadas[indice_plaza_anterior]) {
+		color_recuadro_numero = MY_GREEN;
+	} else {
+		color_recuadro_numero = MY_SILVER;
+	}
+	pantalla.setFreeFont(FF47);
+	pantalla.fillRect(x + 50 * indice_plaza_anterior-3, 3, 36, 36, color_recuadro_numero);
+	pantalla.drawString((String)(indice_plaza_anterior + 1),x + 50 * indice_plaza_anterior + 4, 6);
+
+	pantalla.fillRect(x + 50 * indice_plaza_actual -3, 3, 36, 36, MY_RED);
+    if(plazas_activadas[indice_plaza_actual]) {
+		color_recuadro_numero = MY_GREEN;
+		color_recuadro_texto = MY_SILVER;
+		texto_opcion_activar_o_desactivar = "DESACTIVAR";
+		texto_estado_de_la_plaza = "ACTIVADA";
+		espacio_texto_activar_o_desactivar = 0;
+	} else {
+		color_recuadro_numero = MY_SILVER;
+		color_recuadro_texto = MY_GREEN;
+		texto_opcion_activar_o_desactivar = "ACTIVAR";
+		texto_estado_de_la_plaza = "DESACTIVADA";
+		espacio_texto_activar_o_desactivar = 20;
 	}
 	
-	pantalla.setFreeFont(FF47);
-	posNumX += separacionNum * (plaza - 1);
-	pantalla.fillRect(posNumX, 6, 30, 30, colorPlaza);
-	pantalla.drawString((String)(plaza),posNumX + 4, 6);
-	pantalla.fillRect(posNumX, 33, 30, 3, MY_RED);
+	pantalla.fillRect(x + 50*indice_plaza_actual, 6, 30, 30, color_recuadro_numero);
+	pantalla.fillRect(45, 155, 240, 40, color_recuadro_texto);
+	pantalla.drawString((String)(indice_plaza_actual + 1),x + 50 * indice_plaza_actual + 4, 6);
+	pantalla.fillRect(40, 90, 250, 50, MY_WHITE);
 	pantalla.setFreeFont(FMB9);
-	pantalla.drawString("DESACTIVAR", 53, 168);
-    pantalla.drawString("ACTIVAR", 185, 168);
+	pantalla.drawString("PLAZA", 110, 95);
+	pantalla.drawString((String)(indice_plaza_actual + 1), 190, 95);
+	pantalla.drawString(texto_estado_de_la_plaza, 110, 115);
+	pantalla.drawString(texto_opcion_activar_o_desactivar, 110 + espacio_texto_activar_o_desactivar, 168);
 }
 
 void colocar_en_gris_el_marco_del_numero_de_la_plaza_actual(uint8_t plaza)
@@ -210,11 +243,11 @@ void resaltar_opcion_en_posicion_actual_del_menu_elegir_sensor_de_temperatura(ui
 	uint32_t posX = 45,posY = 155, ancho = 120, alto = 40, separacion = 0, color;
 
 	for(uint8_t i = 1; i <= 2; ++i, separacion += 120){
-		if(i == opcion)
-    		color = MY_YELLOW;
-    	else
-      		color = MY_WHITE;
-    
+		if(i == opcion) {
+			color = MY_YELLOW;
+		} else {
+			color = MY_WHITE;
+		}
     	pantalla.fillRect(posX + separacion,posY,ancho,alto, color);
 	}
 }
@@ -239,11 +272,10 @@ void colocar_elementos_de_fondo_del_menu_elegir_funcion_de_calentamiento()
 void mostrar_opciones_del_menu_elegir_funcion_de_calentamiento(uint8_t opcion)
 {
 	pantalla.setFreeFont(TT1);
-	if(opcion == 1){
+	if(opcion == 1) {
 		pantalla.fillRect(175, 91, 125, 15, MY_GREEN);
 		pantalla.drawString("CONSTANTE", 200, 90, FONT2);
-	}else
-	{
+	} else {
 		pantalla.fillRect(175, 91, 125, 15, MY_YELLOW);
 		pantalla.drawString("RAMPA", 210, 90, FONT2);
 	}
@@ -275,12 +307,11 @@ void mostrar_en_pantalla_el_estado_del_enlace(const bool conectado)
 {
 	String respuesta; 
 	uint32_t x,  y = 85, tam, color, font = 4;
-	if(conectado){
+	if(conectado) {
 		color = MY_GREEN;
 		respuesta = "CONECTADO";
 		x = 80;
-	}
-	else{
+	} else {
 		color = MY_RED;
 		respuesta = "DESCONECTADO";
 		x = 65;

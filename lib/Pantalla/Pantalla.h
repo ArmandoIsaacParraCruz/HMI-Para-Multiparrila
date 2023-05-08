@@ -32,11 +32,11 @@ void resaltar_opcion_en_posicion_actual_del_menu_configurar_agitacion_y_calentam
 
 void mostrar_opciones_del_menu_configurar_agitacion_y_calentamiento();
 
-void colocar_elementos_de_fondo_del_menu_activar_o_desactivar_plazas();
+void colocar_elementos_de_fondo_del_menu_activar_o_desactivar_plazas(bool *plazas_activadas, const uint8_t cantidad_de_plazas);
 
 void desplegar_mensaje_de_que_no_se_ha_activado_ninguna_plaza();
 
-void resaltar_opcion_en_posicion_actual_del_menu_activar_o_desactivar_plazas(uint8_t, uint8_t);
+void resaltar_opcion_en_posicion_actual_del_menu_activar_o_desactivar_plazas(bool *plazas_activadas, uint8_t indice_plaza_actual, const uint8_t cantidad_de_plazas);
 
 void mostrar_opciones_del_menu_activar_o_desactivar_plazas(uint8_t);
 

@@ -97,47 +97,47 @@ void configurar_agitacion_y_calentamiento()
 
 void activar_o_desactivar_plazas()
 {
-	colocar_elementos_de_fondo_del_menu_activar_o_desactivar_plazas();
-	for(uint8_t plaza = 0; plaza < CANT_PLAZAS; ++plaza){
-		uint8_t opcion = 1; char caracter;
-		while (true)
-		{
-			resaltar_opcion_en_posicion_actual_del_menu_activar_o_desactivar_plazas(opcion, plaza + 1);
-			mostrar_opciones_del_menu_activar_o_desactivar_plazas(plaza + 1);
-			caracter = NO_KEY;
-    		while(caracter == NO_KEY){
-      			caracter = teclado.getKey();
-      			if(caracter != 'C' && caracter != 'D' && caracter != 'A' && caracter != 'B')
-        			caracter = NO_KEY;
-    		}
-    
-    		if(caracter == 'C')
-      			opcion--;
-    		else if(caracter == 'D')
-    			opcion++;
-			else if(caracter == 'A'){
-				if(opcion == 1)
-					plazas[plaza].activado = false;
-				else
-					plazas[plaza].activado = true;
-				break;
-			}
-    		else if(caracter == 'B'){
-				if(plaza == 0){
-					configurar_agitacion_y_calentamiento();					
-					return;
-				}	
-				colocar_en_gris_el_marco_del_numero_de_la_plaza_actual( plaza + 1);
-				plaza-=2;
-				break;
-			}
-    
-
-    		if(opcion > 2)
-      			opcion = 1;  
-    		else if(opcion < 1)
-      			opcion = 2;
+	bool plazas_activadas[CANT_PLAZAS];
+	for(uint8_t i = 0; i < CANT_PLAZAS; ++i) {
+		plazas_activadas[i] = plazas[i].activado;
+	}
+	colocar_elementos_de_fondo_del_menu_activar_o_desactivar_plazas(plazas_activadas, CANT_PLAZAS);
+	uint8_t i = 0; 
+	while( i >= 0 && i < CANT_PLAZAS) {
+		resaltar_opcion_en_posicion_actual_del_menu_activar_o_desactivar_plazas(plazas_activadas, i, CANT_PLAZAS);
+		char caracter;
+		caracter = NO_KEY;
+    	while(caracter == NO_KEY){
+      		caracter = teclado.getKey();
+      		if(caracter != 'C' && caracter != 'D' && caracter != 'A' && caracter != 'B')
+        		caracter = NO_KEY;
     	}
+
+		if(caracter == 'A') {
+			if(plazas[i].activado) {
+				plazas[i].activado = false;
+				plazas_activadas[i] = false;
+			}else {
+				plazas[i].activado = true;
+				plazas_activadas[i] = true;
+			}
+		}
+
+		else if(caracter == 'B'){
+			configurar_agitacion_y_calentamiento();					
+			return;
+		}
+
+    	else if(caracter == 'C') {
+			break;
+		}
+
+		else if(caracter == 'D') {
+			i++;
+			if(i >= CANT_PLAZAS) {
+				i = 0;
+			}
+		}
 	}
 
 	bool configuracionValida = validar_que_por_lo_menos_haya_una_plaza_activada();
