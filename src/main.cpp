@@ -1,19 +1,23 @@
-
 #include <Arduino.h>
 #include "HMI.h"
 
-uint8_t opcion = 0;
+uint8_t opcion;
 
-void setup() { 
-  
-	inicializaHMI();
+void setup() 
+{   
+    inicializar_HMI();
 	Serial.begin(115200);
 }
 
 void loop()
 {
-  opcion = menuPrincipal();
-  muestraMenuOpcionElegida(opcion);
+    opcion = menu_principal();
+    if(opcion == 1)
+		configurar_agitacion_y_calentamiento();
+  	else if(opcion == 2)
+		monitorear_agitacion_y_temperatura();
+  	else if(opcion == 3)
+    	mostrar_el_estado_del_enlace();
 }
 
 

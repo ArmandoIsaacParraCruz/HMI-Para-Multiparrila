@@ -2,35 +2,43 @@
 #define HMI_h
 #include <Arduino.h>
 #include <queue> 
+#include <ctype.h>
 #include "Pantalla.h"
 #include "Teclado.h"
-#include "Comunicacion_Inalambrica.h"
+#include "ComunicacionConMultiparrilla.h"
 
-struct motor{  
+#define CANT_PLAZAS 6
+
+struct Motor{  
     bool activado;                                      //Activa o desactiva un motor al inicio de la configuración de los motores.
-    std::queue<double>minutosParaMantenerSetpoints;     //Almacena los minutos de duración de un setpoint que seguirá el PID del motor a configurar.
     std::queue<double>setpoints;                        //Almacena los setpoints que seguirá el PID del motor a configurar
 };
 
-/*struct platoCalefactor{  
-    bool activado;                                      //Activa o desactiva un motor al inicio de la configuración de los motores.
-    std::queue<double>minutosParaMantenerSetpoints;     //Almacena los minutos de duración de un setpoint que seguirá el PID del motor a configurar.
+struct PlatoCalefactor{  
+    bool activado;                                     //Activa o desactiva un motor al inicio de la configuración de los motores.
     std::queue<double>setpoints;                        //Almacena los setpoints que seguirá el PID del motor a configurar
-};*/
+};
 
+struct Plaza{
+    bool activado;
+    bool sensorInfrarrojo; 
+    Motor motor;
+    PlatoCalefactor platoCalefactor;
+    std::queue<double> minutosParaMantenerSetpoint; 
+};
 
-extern motor motores[6];  //Se crea un arreglo de 6 plazas llamado multiHeaterStirrer
+extern Plaza plazas[6];
 
-void inicializaPlatosYMotores();
-void inicializaHMI();
-uint8_t menuPrincipal();
-void configAgitacionCalentamiento();
-void configuracionIndividual();
-
-void configuracionGrupal();
-void activarDesactivarSensorInfrarrojo();
-void configurarFuncTemperatura();
-
-void monitorearMultiparrilla();
-void menuEstadoDelEnlace();
+void inicializar_plazas();
+void inicializar_HMI();
+uint8_t menu_principal();
+void configurar_agitacion_y_calentamiento();
+void activar_o_desactivar_plazas();
+bool validar_que_por_lo_menos_haya_una_plaza_activada();
+void elegir_sensor_de_temperatura();
+void elegir_funcion_de_calentamiento();
+void establecer_setpoint_para_un_calentamiento_constante();
+void establecer_setpoints_para_una_rampa_de_temperatura();
+void monitorear_agitacion_y_temperatura();
+void mostrar_el_estado_del_enlace();
 #endif

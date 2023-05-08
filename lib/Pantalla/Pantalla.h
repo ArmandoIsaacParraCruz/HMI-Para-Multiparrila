@@ -12,25 +12,50 @@
 
 extern TFT_eSPI pantalla;
 
-void configuraPantalla();
-void muestraLogoUAM();
-void colocaElementosEstaticosMenuPrincipal();
-void escribeTextoOpcionesMenuPrincipal();
-void resaltaOpcionMenuPrincipal(uint8_t );
-void muestraMenuOpcionElegida(uint8_t);
-void colocaElementosEstaticosMenuConfigAgitacionCalentamiento();
-void muestraImagenMultiparrilla();
-void resaltaOpcionMenuConfigAgitacionCalentamiento(uint8_t);
-void escribeTextoOpcionesMenuConfigCalentamiento();
-void colocaElementosEstaticosConfiguracionGrupal();
-void resaltaOpcionActivarDesactivarPlaza(uint8_t, uint8_t);
-void escribeTextoOpcionesActivarDesactivarPlaza(uint8_t);
-void colocaElementosEstaticosPreguntaSiActivarSensorInfrarrojo();
-void resaltaOpcionActivarDesactivarSensorInfrarrojo(uint8_t);
-void escribeTextoOpcionesActivarDesactivarSensorInfrarrojo();
-void colocaElementosEstaticosFuncTemperatura();
-void escribeTextoOpcionesFuncTemperatura(uint8_t);
-void colocaElementosEstaticosMenuEstadoDelEncale();
-void muestraEstadoDelEnlace(bool);
+void inicializar_pantalla();
+
+void mostrar_logo_UAM();
+
+void colocar_elementos_de_fondo_del_menu_principal();
+
+void mostrar_opciones_del_menu_principal();
+
+void resaltar_opcion_en_posicion_actual_del_menu_principal(uint8_t );
+
+void mostrar_opcion_elegida_en_el_menu_principal(uint8_t);
+
+void colocar_elementos_de_fondo_del_menu_configurar_agitacion_y_calentamiento();
+
+void mostrar_imagen_multiparrilla();
+
+void resaltar_opcion_en_posicion_actual_del_menu_configurar_agitacion_y_calentamiento(uint8_t);
+
+void mostrar_opciones_del_menu_configurar_agitacion_y_calentamiento();
+
+void colocar_elementos_de_fondo_del_menu_activar_o_desactivar_plazas();
+
+void desplegar_mensaje_de_que_no_se_ha_activado_ninguna_plaza();
+
+void resaltar_opcion_en_posicion_actual_del_menu_activar_o_desactivar_plazas(uint8_t, uint8_t);
+
+void mostrar_opciones_del_menu_activar_o_desactivar_plazas(uint8_t);
+
+void colocar_en_gris_el_marco_del_numero_de_la_plaza_actual(uint8_t);
+
+void colocar_elementos_de_fondo_del_menu_elegir_sensor_de_temperatura();
+
+void resaltar_opcion_en_posicion_actual_del_menu_elegir_sensor_de_temperatura(uint8_t);
+
+void mostrar_opciones_del_menu_elegir_sensor_de_temperatura();
+
+void colocar_elementos_de_fondo_del_menu_elegir_funcion_de_calentamiento();
+
+void mostrar_opciones_del_menu_elegir_funcion_de_calentamiento(uint8_t);
+
+void colocar_elementos_de_fondo_del_menu_establecer_setpoint_para_un_calentamiento_constante();
+
+void colocar_elementos_de_fondo_del_menu_mostrar_el_estado_del_enlace();
+
+void mostrar_en_pantalla_el_estado_del_enlace(bool);
 
 #endif
