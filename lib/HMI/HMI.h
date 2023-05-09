@@ -1,6 +1,7 @@
 #ifndef HMI_h
 #define HMI_h
 #include <Arduino.h>
+#include <string>
 #include <queue> 
 #include <ctype.h>
 #include "Pantalla.h"
@@ -8,6 +9,8 @@
 #include "ComunicacionConMultiparrilla.h"
 
 #define CANT_PLAZAS 6
+
+extern bool sensorInfrarrojo; 
 
 struct Motor{  
     bool activado;                                      //Activa o desactiva un motor al inicio de la configuración de los motores.
@@ -21,7 +24,6 @@ struct PlatoCalefactor{
 
 struct Plaza{
     bool activado;
-    bool sensorInfrarrojo; 
     Motor motor;
     PlatoCalefactor platoCalefactor;
     std::queue<double> minutosParaMantenerSetpoint; 

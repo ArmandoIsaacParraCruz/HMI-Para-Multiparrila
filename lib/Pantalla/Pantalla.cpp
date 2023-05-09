@@ -23,15 +23,15 @@ void mostrar_logo_UAM(){
 
 void colocar_elementos_de_fondo_del_menu_principal()
 {
-	uint32_t posX = 45,posY = 10, ancho = 240, alto = 60, separacion = 10; 
+	uint32_t posX = 45,posY = 10, ancho = 240, alto = 60, separacion = 10,
+			 x1_1 = 35,y1_1 = 230, x2_1 = 45, y2_1 = 230, x3_1 = 40, y3_1 = 220,
+             x1_2 = 135,y1_2 = 220, x2_2 = 145, y2_2 = 220, x3_2 = 140, y3_2 = 230;
+
 	pantalla.fillScreen(MY_SKYBLUE);
 	pantalla.fillRect(posX,posY,ancho,alto, MY_BLACK);
 	pantalla.fillRect(posX,posY + alto + separacion,ancho,alto,MY_BLACK);
 	pantalla.fillRect(posX,posY + alto + alto + separacion + separacion,ancho,alto,MY_BLACK);
 
-
-	uint32_t x1_1 = 35,y1_1 = 230, x2_1 = 45, y2_1 = 230, x3_1 = 40, y3_1 = 220,
-             x1_2 = 135,y1_2 = 220, x2_2 = 145, y2_2 = 220, x3_2 = 140, y3_2 = 230;
 	pantalla.fillTriangle(x1_1, y1_1, x2_1, y2_1, x3_1, y3_1, MY_BLACK);
 	pantalla.fillTriangle(x1_2, y1_2, x2_2, y2_2, x3_2, y3_2, MY_BLACK);
 	pantalla.setFreeFont(FMB9);
@@ -72,8 +72,12 @@ void mostrar_opciones_del_menu_principal()
 
 void colocar_elementos_de_fondo_del_menu_configurar_agitacion_y_calentamiento()
 {
+	uint32_t x1_1 = 30,y1_1 = 230, x2_1 = 40, y2_1 = 230, x3_1 = 35, y3_1 = 220,
+         	 x1_2 = 75,y1_2 = 220, x2_2 = 85, y2_2 = 220, x3_2 = 80, y3_2 = 230,
+			 separacion = 10, posX = 20;
+
 	mostrar_imagen_multiparrilla();
-	uint32_t posX = 20;
+
 	for(uint8_t i = 0; i < 6; ++i, posX+=50) {
 		pantalla.fillRect(posX, 6, 30, 30, MY_SILVER);
 		pantalla.drawString((String)(i+1),posX + 4, 6);
@@ -82,9 +86,7 @@ void colocar_elementos_de_fondo_del_menu_configurar_agitacion_y_calentamiento()
 	pantalla.fillRect(40, 90, 250, 50, MY_BLACK);
 	pantalla.fillRect(40, 150, 250, 50, MY_BLACK);
 
-	uint32_t x1_1 = 30,y1_1 = 230, x2_1 = 40, y2_1 = 230, x3_1 = 35, y3_1 = 220,
-         	 x1_2 = 75,y1_2 = 220, x2_2 = 85, y2_2 = 220, x3_2 = 80, y3_2 = 230,
-			 separacion = 10;
+	
 	pantalla.fillTriangle(x1_1, y1_1, x2_1, y2_1, x3_1, y3_1, MY_BLACK);
 	pantalla.fillTriangle(x1_2, y1_2, x2_2, y2_2, x3_2, y3_2, MY_BLACK);
 	pantalla.setFreeFont(FMB9);
@@ -127,9 +129,12 @@ void mostrar_opciones_del_menu_configurar_agitacion_y_calentamiento()
 
 void colocar_elementos_de_fondo_del_menu_activar_o_desactivar_plazas(bool *plazas_activadas, const uint8_t cantidad_de_plazas)
 {
+	uint32_t x1_1 = 223,y1_1 = 222, x2_1 = 223, y2_1 = 232, x3_1 = 233, y3_1 = 227,
+         	 x1_2 = 220,y1_2 = 222, x2_2 = 220, y2_2 = 232, x3_2 = 210, y3_2 = 227,
+			 posX = 17, color;
+
 	pantalla.fillScreen(MY_SKYBLUE);
 	mostrar_imagen_multiparrilla();
-	uint32_t posX = 17, color;
 	pantalla.setFreeFont(FF47);
 	for(uint8_t i = 0; i < cantidad_de_plazas; ++i, posX+=50) {
 		if(plazas_activadas[i]) {
@@ -141,8 +146,7 @@ void colocar_elementos_de_fondo_del_menu_activar_o_desactivar_plazas(bool *plaza
 		pantalla.drawString((String)(i+1),posX + 7, 6);
 	}
 
-	uint32_t x1_1 = 223,y1_1 = 222, x2_1 = 223, y2_1 = 232, x3_1 = 233, y3_1 = 227,
-         	 x1_2 = 220,y1_2 = 222, x2_2 = 220, y2_2 = 232, x3_2 = 210, y3_2 = 227;
+	
 	pantalla.fillRect(40, 150, 250, 50, MY_BLACK);
 	pantalla.fillTriangle(x1_1, y1_1, x2_1, y2_1, x3_1, y3_1, MY_BLACK);
 	pantalla.fillTriangle(x1_2, y1_2, x2_2, y2_2, x3_2, y3_2, MY_BLACK);
@@ -212,8 +216,8 @@ void resaltar_opcion_en_posicion_actual_del_menu_activar_o_desactivar_plazas(boo
 
 void colocar_en_gris_el_marco_del_numero_de_la_plaza_actual(uint8_t plaza)
 {
-	pantalla.setFreeFont(FF47);
 	uint32_t posNumX = 20 + 50* (plaza - 1);
+	pantalla.setFreeFont(FF47);
 	pantalla.fillRect(posNumX, 6, 30, 30, MY_SILVER);
 	pantalla.drawString((String)(plaza),posNumX + 4, 6);
 }
@@ -230,12 +234,25 @@ void mostrar_opciones_del_menu_activar_o_desactivar_plazas(uint8_t plaza)
 
 void colocar_elementos_de_fondo_del_menu_elegir_sensor_de_temperatura()
 {
+	uint32_t x1_1 = 223,y1_1 = 222, x2_1 = 223, y2_1 = 232, x3_1 = 233, y3_1 = 227,
+         	 x1_2 = 220,y1_2 = 222, x2_2 = 220, y2_2 = 232, x3_2 = 210, y3_2 = 227;
+
 	pantalla.setFreeFont(FMB9);
-	pantalla.fillRect(10,90, 300, 120, MY_SKYBLUE);
+
+	pantalla.fillRect(10,90, 300, 200, MY_SKYBLUE);
 	pantalla.fillRect(40, 150, 250, 50, MY_BLACK);
 	pantalla.fillRect(40, 90, 250, 50, MY_WHITE);
-    pantalla.fillRect(40, 90, 250, 50, MY_WHITE);
-	pantalla.drawString("SENSOR DE TEMPERATURA", 50, 108);
+	pantalla.drawString("SENSOR DE TEMPERATURA", 45, 95);
+	pantalla.drawString("CONFIGURADO:", 45, 120);
+	pantalla.fillTriangle(x1_1, y1_1, x2_1, y2_1, x3_1, y3_1, MY_BLACK);
+	pantalla.fillTriangle(x1_2, y1_2, x2_2, y2_2, x3_2, y3_2, MY_BLACK);
+	pantalla.setFreeFont(FMB9);
+	//pantalla.setTextColor(MY_BLACK);
+	pantalla.drawString("A:ELEGIR", 10, 205);
+	pantalla.drawString("B:REGRESAR", 10, 220);
+	pantalla.drawString("C:CONTINUAR", 190, 205);
+	pantalla.drawString("D:", 190, 220);
+	
 }
 
 void resaltar_opcion_en_posicion_actual_del_menu_elegir_sensor_de_temperatura(uint8_t opcion)
@@ -252,9 +269,19 @@ void resaltar_opcion_en_posicion_actual_del_menu_elegir_sensor_de_temperatura(ui
 	}
 }
 
-void mostrar_opciones_del_menu_elegir_sensor_de_temperatura()
+void mostrar_opciones_del_menu_elegir_sensor_de_temperatura(bool sensorInfrarrojo)
 {
+	String sensor;
+
+	if(sensorInfrarrojo) {
+		sensor = "INFRARROJO";
+	} else {
+		sensor = "TERMOPAR";
+	}
+
 	pantalla.setFreeFont(FMB9);
+	pantalla.fillRect(175, 120, 115, 20, MY_WHITE);
+	pantalla.drawString(sensor, 175, 120);
 	pantalla.drawString("INFRARROJO", 50, 168);
     pantalla.drawString("TERMOPAR", 180, 168);
 }
@@ -263,7 +290,16 @@ void mostrar_opciones_del_menu_elegir_sensor_de_temperatura()
 
 void colocar_elementos_de_fondo_del_menu_elegir_funcion_de_calentamiento()
 {
-	pantalla.fillRect(10, 90, 300, 120, MY_WHITE);
+	uint32_t x1_1 = 283,y1_1 = 222, x2_1 = 283, y2_1 = 232, x3_1 = 293, y3_1 = 227,
+         	 x1_2 = 280,y1_2 = 222, x2_2 = 280, y2_2 = 232, x3_2 = 270, y3_2 = 227;
+	pantalla.fillRect(0, 90, 320, 250, MY_SKYBLUE);
+	pantalla.fillRect(10, 90, 300, 110, MY_WHITE);
+	pantalla.setFreeFont(FMB9);
+	pantalla.drawString("A:ELEGIR", 10, 220);
+	pantalla.drawString("B:REGRESAR", 120, 220);
+	pantalla.drawString("D:", 250, 220);
+	pantalla.fillTriangle(x1_1, y1_1, x2_1, y2_1, x3_1, y3_1, MY_BLACK);
+	pantalla.fillTriangle(x1_2, y1_2, x2_2, y2_2, x3_2, y3_2, MY_BLACK);
 	pantalla.setFreeFont(TT1);
 	pantalla.drawString("FUNC. DE TEMPERATURA:", 11, 90, FONT2);
 }
@@ -284,13 +320,29 @@ void mostrar_opciones_del_menu_elegir_funcion_de_calentamiento(uint8_t opcion)
 void colocar_elementos_de_fondo_del_menu_establecer_setpoint_para_un_calentamiento_constante()
 {
 	pantalla.setFreeFont(TT1);
-	pantalla.drawString("TEMPERATURA:", 10, 105, FONT2);
-	pantalla.drawString("C", 300, 105, FONT2);
-	pantalla.drawCircle(295,108,2,MY_BLACK);
-	pantalla.fillRect(10,220, 190, 15, MY_SKYBLUE);
+	pantalla.drawString("TEMPERATURA:", 10, 110, FONT2);
 	pantalla.setFreeFont(FMB9);
-	pantalla.drawString("C:BORRAR", 10, 218);
-	pantalla.drawString("A:ACEPT.", 110, 218);
+	pantalla.fillRect(0, 210, 320, 30, MY_SKYBLUE);
+	pantalla.drawString("A:CONTINUAR", 10, 205);
+	pantalla.drawString("B:REGRESAR", 10, 220);
+	pantalla.drawString("C:BORRAR", 190, 205);
+}
+
+void coloca_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentamiento_constante(uint32_t temperatura)
+{
+	String valor_temperatura;
+	pantalla.setFreeFont(TT1);
+	pantalla.fillRect(110, 110, 200, 15, MY_WHITE);
+	if(temperatura == 0) {
+		valor_temperatura = "PLATO DESACTIVADO";
+	} else {
+		valor_temperatura = (String)temperatura;
+		pantalla.drawString("C", 145, 110, FONT2);
+		pantalla.drawCircle(140,113,2,MY_BLACK);
+		pantalla.drawCircle(280,113,2,MY_BLACK);
+		pantalla.drawString("TEMP.MAX: 300 C", 180, 110, FONT2);
+	}
+	pantalla.drawString(valor_temperatura, 110, 110, FONT2);
 }
 
 

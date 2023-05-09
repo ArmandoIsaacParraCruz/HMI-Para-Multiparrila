@@ -1,6 +1,7 @@
 #include "HMI.h"
 
 Plaza plazas[CANT_PLAZAS];
+bool sensorInfrarrojo; 
 
 
 void inicializar_plazas(){
@@ -8,8 +9,8 @@ void inicializar_plazas(){
    		plazas[i].activado = false;
 		plazas[i].motor.activado = false;
 		plazas[i].platoCalefactor.activado = false;
-		plazas[i].sensorInfrarrojo = false;
 	}  
+	sensorInfrarrojo = false;
 }
 
 
@@ -26,7 +27,7 @@ void inicializar_HMI()
 uint8_t menu_principal(){
   
 	uint8_t opcion = 1;
-  	char caracter = '\0';
+  	char caracter = NO_KEY;
 
   	//SE COLOCAN LOS RECUADROS DE FONDO PARA LAS OPCIONES
   	colocar_elementos_de_fondo_del_menu_principal();
@@ -62,12 +63,12 @@ void configurar_agitacion_y_calentamiento()
 {
 	colocar_elementos_de_fondo_del_menu_configurar_agitacion_y_calentamiento();
 	
-	uint8_t opcion = 1; char caracter;
+	uint8_t opcion = 1; char caracter = NO_KEY;
 	while(true){
 		resaltar_opcion_en_posicion_actual_del_menu_configurar_agitacion_y_calentamiento(opcion);
     	mostrar_opciones_del_menu_configurar_agitacion_y_calentamiento();
-		caracter = NO_KEY;
 
+		caracter = NO_KEY;
     	while(caracter == NO_KEY){
       		caracter = teclado.getKey();
       		if(caracter != 'C' && caracter != 'D' && caracter != 'A' && caracter != 'B')
@@ -103,9 +104,9 @@ void activar_o_desactivar_plazas()
 	}
 	colocar_elementos_de_fondo_del_menu_activar_o_desactivar_plazas(plazas_activadas, CANT_PLAZAS);
 	uint8_t i = 0; 
+	char caracter = NO_KEY;
 	while( i >= 0 && i < CANT_PLAZAS) {
 		resaltar_opcion_en_posicion_actual_del_menu_activar_o_desactivar_plazas(plazas_activadas, i, CANT_PLAZAS);
-		char caracter;
 		caracter = NO_KEY;
     	while(caracter == NO_KEY){
       		caracter = teclado.getKey();
@@ -145,7 +146,7 @@ void activar_o_desactivar_plazas()
 		elegir_sensor_de_temperatura();
 	else{
 		desplegar_mensaje_de_que_no_se_ha_activado_ninguna_plaza();
-		char caracter = NO_KEY;
+		caracter = NO_KEY;
     	while(caracter == NO_KEY){
     		caracter = teclado.getKey();
   			if(caracter != 'B')
@@ -168,10 +169,15 @@ bool validar_que_por_lo_menos_haya_una_plaza_activada()
 void elegir_sensor_de_temperatura()
 {
 	colocar_elementos_de_fondo_del_menu_elegir_sensor_de_temperatura();
-	uint8_t opcion = 1; bool activarSensorInfrarrojo; char caracter;
+
+	uint8_t opcion = 1; 
+	bool activarSensorInfrarrojo; 
+	char caracter = NO_KEY;
+
 	while(true){
 		resaltar_opcion_en_posicion_actual_del_menu_elegir_sensor_de_temperatura(opcion);
-    	mostrar_opciones_del_menu_elegir_sensor_de_temperatura();
+    	mostrar_opciones_del_menu_elegir_sensor_de_temperatura(sensorInfrarrojo);
+
 		caracter = NO_KEY;
     	while(caracter == NO_KEY){
       		caracter = teclado.getKey();
@@ -179,35 +185,32 @@ void elegir_sensor_de_temperatura()
         		caracter = NO_KEY;
     	}
     
-    	if(caracter == 'C')
-      		opcion--;
-    	else if(caracter == 'D')
-    		opcion++;
-		else if(caracter == 'A'){
-			if(opcion == 1)
-				delay(1); //activar sensor infrarrojo
-			else
-				delay(1);//desactivar sensor infrarrojo
+    	if(caracter == 'C') {
 			elegir_funcion_de_calentamiento();
-			break;
-		}
-    	else if(caracter == 'B'){
+		} else if(caracter == 'D') {
+			opcion++;
+		} else if(caracter == 'A'){
+			if(opcion == 1) {
+				sensorInfrarrojo = true;
+			} else {
+				sensorInfrarrojo = false;
+			}
+		} else if(caracter == 'B') {
 			activar_o_desactivar_plazas();
     		break;
 		}
-    
 
-    	if(opcion > 2)
-      		opcion = 1;  
-    	else if(opcion < 1)
-      		opcion = 2;
+    	if(opcion > 2) {
+			opcion = 1; 
+		}	 
     }
 }
 
 void elegir_funcion_de_calentamiento()
 {
 	colocar_elementos_de_fondo_del_menu_elegir_funcion_de_calentamiento();
-	char caracter; uint8_t opcion = 1; 
+	char caracter = NO_KEY; 
+	uint8_t opcion = 1; 
 	while(true){
     	mostrar_opciones_del_menu_elegir_funcion_de_calentamiento(opcion);
 		caracter = NO_KEY;
@@ -246,8 +249,11 @@ void elegir_funcion_de_calentamiento()
 void establecer_setpoint_para_un_calentamiento_constante()
 {
 	colocar_elementos_de_fondo_del_menu_establecer_setpoint_para_un_calentamiento_constante();
-	char caracter; uint32_t temperatura = 0; uint8_t digito;
+	char caracter = NO_KEY;
+	String temperatura_en_texto = "0";
+	uint32_t temperatura_en_numero = 0; 
 	while(true){
+		coloca_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentamiento_constante(temperatura_en_texto.toInt());
 		caracter = NO_KEY;
     	while(caracter == NO_KEY){
       		caracter = teclado.getKey();
@@ -257,12 +263,17 @@ void establecer_setpoint_para_un_calentamiento_constante()
 
 		if(isdigit(caracter))
 		{
-			//escribeDigitoTempModoGrupal();
+			temperatura_en_texto += caracter;
+			if(temperatura_en_texto.toInt() > 999) {
+				temperatura_en_texto = caracter;
+			}
 		}
 
 
-    	if(caracter == 'C')
-      		temperatura = 0;
+    	if(caracter == 'C') {
+			temperatura_en_texto = "0";
+		}
+      	
     	else if(caracter == 'D')
     		break;
 		else if(caracter == 'A'){

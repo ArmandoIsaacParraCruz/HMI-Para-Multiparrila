@@ -46,13 +46,15 @@ void colocar_elementos_de_fondo_del_menu_elegir_sensor_de_temperatura();
 
 void resaltar_opcion_en_posicion_actual_del_menu_elegir_sensor_de_temperatura(uint8_t);
 
-void mostrar_opciones_del_menu_elegir_sensor_de_temperatura();
+void mostrar_opciones_del_menu_elegir_sensor_de_temperatura(bool sensorInfrarrojo);
 
 void colocar_elementos_de_fondo_del_menu_elegir_funcion_de_calentamiento();
 
 void mostrar_opciones_del_menu_elegir_funcion_de_calentamiento(uint8_t);
 
 void colocar_elementos_de_fondo_del_menu_establecer_setpoint_para_un_calentamiento_constante();
+
+void coloca_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentamiento_constante(uint32_t temperatura);
 
 void colocar_elementos_de_fondo_del_menu_mostrar_el_estado_del_enlace();
 
