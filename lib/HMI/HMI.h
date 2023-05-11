@@ -2,7 +2,7 @@
 #define HMI_h
 #include <Arduino.h>
 #include <string>
-#include <queue> 
+#include <vector> 
 #include <ctype.h>
 #include "Pantalla.h"
 #include "Teclado.h"
@@ -10,26 +10,17 @@
 
 #define CANT_PLAZAS 6
 
-extern bool sensorInfrarrojo; 
 
-struct Motor{  
-    bool activado;                                      //Activa o desactiva un motor al inicio de la configuración de los motores.
-    std::queue<double>setpoints;                        //Almacena los setpoints que seguirá el PID del motor a configurar
+struct Multiparrilla {
+    bool sensor_infrarrojo; 
+    bool plazas_activadas[CANT_PLAZAS];
+    std::vector<uint16_t>setpoints_temperatura;
+    std::vector<char>funcion_de_temperatura;
+    std::vector<uint16_t>setpoints_agitacion; 
+    std::vector<uint16_t> minutos_para_mantener_setpoints; 
 };
 
-struct PlatoCalefactor{  
-    bool activado;                                     //Activa o desactiva un motor al inicio de la configuración de los motores.
-    std::queue<double>setpoints;                        //Almacena los setpoints que seguirá el PID del motor a configurar
-};
-
-struct Plaza{
-    bool activado;
-    Motor motor;
-    PlatoCalefactor platoCalefactor;
-    std::queue<double> minutosParaMantenerSetpoint; 
-};
-
-extern Plaza plazas[6];
+extern Multiparrilla multiparrilla;
 
 void inicializar_plazas();
 void inicializar_HMI();
@@ -41,6 +32,7 @@ void elegir_sensor_de_temperatura();
 void elegir_funcion_de_calentamiento();
 void establecer_setpoint_para_un_calentamiento_constante();
 void establecer_setpoints_para_una_rampa_de_temperatura();
+void establecer_setpoint_de_agitacion();
 void monitorear_agitacion_y_temperatura();
 void mostrar_el_estado_del_enlace();
 #endif

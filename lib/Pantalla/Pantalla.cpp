@@ -165,7 +165,7 @@ void desplegar_mensaje_de_que_no_se_ha_activado_ninguna_plaza()
 	pantalla.fillRect(10, 90, 300, 120, MY_YELLOW);
 	pantalla.drawString("NO SE HA ACTIVADO", 45, 95,FONT4);
 	pantalla.drawString("NINGUNA PLAZA", 60,120, FONT4);
-	pantalla.drawString("OPRIMA (B) PARA CONTINUAR", 62,150, FONT2);
+	pantalla.drawString("OPRIMA (C) PARA CONTINUAR", 62,150, FONT2);
 }
 
 void resaltar_opcion_en_posicion_actual_del_menu_activar_o_desactivar_plazas(bool *plazas_activadas, uint8_t indice_plaza_actual, const uint8_t cantidad_de_plazas)
@@ -319,16 +319,17 @@ void mostrar_opciones_del_menu_elegir_funcion_de_calentamiento(uint8_t opcion)
 
 void colocar_elementos_de_fondo_del_menu_establecer_setpoint_para_un_calentamiento_constante()
 {
+	pantalla.fillRect(10, 110, 300, 90, MY_WHITE);
 	pantalla.setFreeFont(TT1);
 	pantalla.drawString("TEMPERATURA:", 10, 110, FONT2);
 	pantalla.setFreeFont(FMB9);
 	pantalla.fillRect(0, 210, 320, 30, MY_SKYBLUE);
 	pantalla.drawString("A:CONTINUAR", 10, 205);
 	pantalla.drawString("B:REGRESAR", 10, 220);
-	pantalla.drawString("C:BORRAR", 190, 205);
+	pantalla.drawString("C:DESACT. PLATO", 155, 205);
 }
 
-void coloca_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentamiento_constante(uint32_t temperatura)
+void coloca_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentamiento_constante(uint16_t temperatura)
 {
 	String valor_temperatura;
 	pantalla.setFreeFont(TT1);
@@ -345,6 +346,61 @@ void coloca_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentam
 	pantalla.drawString(valor_temperatura, 110, 110, FONT2);
 }
 
+void colocar_elementos_de_fondo_del_menu_establecer_setpoint_para_un_calentamiento_en_rampa_inicial()
+{
+	pantalla.fillRect(10, 130, 300, 70, MY_WHITE);
+	pantalla.setFreeFont(TT1);
+	pantalla.drawString("TEMP. INICIAL:", 10, 110, FONT2);
+	pantalla.setFreeFont(FMB9);
+	pantalla.fillRect(0, 210, 320, 30, MY_SKYBLUE);
+	pantalla.drawString("A:CONTINUAR", 10, 205);
+	pantalla.drawString("B:REGRESAR", 10, 220);
+	pantalla.drawString("C:BORRAR", 180, 205);
+}
+
+void coloca_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentamiento_en_rampa_inicial(uint16_t temperatura)
+{
+	pantalla.setFreeFont(TT1);
+	pantalla.fillRect(110, 110, 200, 15, MY_WHITE);
+	pantalla.drawString("C", 145, 110, FONT2);
+	pantalla.drawCircle(140,113,2,MY_BLACK);
+	pantalla.drawCircle(280,113,2,MY_BLACK);
+	pantalla.drawString("TEMP.MAX: 300 C", 180, 110, FONT2);
+	pantalla.drawString((String)temperatura, 110, 110, FONT2);
+}
+
+void colocar_elementos_de_fondo_del_menu_establecer_setpoint_para_un_calentamiento_en_rampa_final()
+{
+	pantalla.fillRect(10, 150, 300, 50, MY_WHITE);
+	pantalla.setFreeFont(TT1);
+	pantalla.drawString("TEMP. FINAL:", 10, 130, FONT2);
+	pantalla.setFreeFont(FMB9);
+	pantalla.fillRect(0, 210, 320, 30, MY_SKYBLUE);
+	pantalla.drawString("A:CONTINUAR", 10, 205);
+	pantalla.drawString("B:REGRESAR", 10, 220);
+	pantalla.drawString("C:BORRAR", 180, 205);
+}
+
+void coloca_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentamiento_en_rampa_final(uint16_t temperatura)
+{
+	pantalla.setFreeFont(TT1);
+	pantalla.fillRect(110, 130, 200, 15, MY_WHITE);
+	pantalla.drawString("C", 145, 130, FONT2);
+	pantalla.drawCircle(140,133,2,MY_BLACK);
+	pantalla.drawString((String)temperatura, 110, 130, FONT2);
+}
+
+
+void colocar_elementos_de_fondo_del_menu_establecer_setpoint_de_agitacion()
+{
+	pantalla.setFreeFont(TT1);
+	pantalla.drawString("AGITACION:", 10, 150, FONT2);
+	pantalla.setFreeFont(FMB9);
+	pantalla.fillRect(0, 210, 320, 30, MY_SKYBLUE);
+	pantalla.drawString("A:CONTINUAR", 10, 205);
+	pantalla.drawString("B:REGRESAR", 10, 220);
+	pantalla.drawString("C:DESACT. AGIT.", 155, 205);
+}
 
 void colocar_elementos_de_fondo_del_menu_mostrar_el_estado_del_enlace()
 {
