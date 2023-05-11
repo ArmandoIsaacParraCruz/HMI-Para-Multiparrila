@@ -280,7 +280,7 @@ void establecer_setpoint_para_un_calentamiento_constante()
 					multiparrilla.funcion_de_temperatura.push_back('c');
 				}
 				multiparrilla.setpoints_temperatura.push_back(temperatura_en_texto.toInt());
-				establecer_setpoint_de_agitacion();
+				establecer_setpoint_de_agitacion(false);
 				break;
 			}
 		} else if(caracter == 'B') { 
@@ -331,7 +331,7 @@ void establecer_setpoints_para_una_rampa_de_temperatura()
 
 	colocar_elementos_de_fondo_del_menu_establecer_setpoint_para_un_calentamiento_en_rampa_final();
 	while(true){
-		coloca_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentamiento_en_rampa_final(temperatura_final_en_texto.toInt());
+		colocar_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentamiento_en_rampa_final(temperatura_final_en_texto.toInt());
 		caracter = NO_KEY;
     	while(caracter == NO_KEY){
       		caracter = teclado.getKey();
@@ -347,10 +347,10 @@ void establecer_setpoints_para_una_rampa_de_temperatura()
 			}
 		}
 
-    	if(caracter == 'A' && temperatura_final_en_texto.toInt() <= 300 && temperatura_final_en_texto.toInt() >= temperatura_inicial_en_texto.toInt()) {
+    	if(caracter == 'A' && temperatura_final_en_texto.toInt() <= 300 && temperatura_final_en_texto.toInt() > temperatura_inicial_en_texto.toInt()) {
 			multiparrilla.setpoints_temperatura.push_back(temperatura_final_en_texto.toInt());
 			multiparrilla.funcion_de_temperatura.push_back('r');
-			establecer_setpoint_de_agitacion();
+			establecer_setpoint_de_agitacion(true);
 			break;
 		} else if(caracter == 'B') {
 			multiparrilla.setpoints_temperatura.pop_back();
@@ -363,12 +363,56 @@ void establecer_setpoints_para_una_rampa_de_temperatura()
     }
 }
 
-void establecer_setpoint_de_agitacion()
+void establecer_setpoint_de_agitacion(bool func_anterior)
 {
+	char caracter = NO_KEY;
+	String rpm_en_texto = "0";
 	colocar_elementos_de_fondo_del_menu_establecer_setpoint_de_agitacion();
+	while(true){
+		colocar_valor_de_rpm_en_el_menu_establecer_setpoint_de_agitacion(rpm_en_texto.toInt());
+		caracter = NO_KEY;
+    	while(caracter == NO_KEY){
+      		caracter = teclado.getKey();
+      		if(caracter == '*' || caracter == '#' || caracter == 'D')
+        		caracter = NO_KEY;
+    	}
+
+		if(isdigit(caracter))
+		{
+			rpm_en_texto += caracter;
+			if(rpm_en_texto.toInt() > 9999) {
+				rpm_en_texto = caracter;
+			}
+		}
+
+    	if(caracter == 'A') {
+			if(rpm_en_texto.toInt() <= 1200) {
+				multiparrilla.setpoints_agitacion.push_back(rpm_en_texto.toInt());
+				establecer_minutos_para_mantener_setpoints();
+				break;
+			}
+		} else if(caracter == 'B') { 
+			multiparrilla.setpoints_temperatura.pop_back();
+			multiparrilla.funcion_de_temperatura.pop_back();
+			if(func_anterior) {
+				multiparrilla.setpoints_temperatura.pop_back();
+				multiparrilla.funcion_de_temperatura.pop_back();
+				establecer_setpoints_para_una_rampa_de_temperatura();
+			} else {
+				establecer_setpoint_para_un_calentamiento_constante();
+			}
+			break;
+		} else if(caracter == 'C') {
+			rpm_en_texto = "0";
+		}
+    }
 
 }
 
+void establecer_minutos_para_mantener_setpoints()
+{
+	
+}
 
 void monitorear_agitacion_y_temperatura()
 {

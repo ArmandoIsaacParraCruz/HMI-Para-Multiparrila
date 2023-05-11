@@ -323,10 +323,10 @@ void colocar_elementos_de_fondo_del_menu_establecer_setpoint_para_un_calentamien
 	pantalla.setFreeFont(TT1);
 	pantalla.drawString("TEMPERATURA:", 10, 110, FONT2);
 	pantalla.setFreeFont(FMB9);
-	pantalla.fillRect(0, 210, 320, 30, MY_SKYBLUE);
+	pantalla.fillRect(0, 200, 320, 40, MY_SKYBLUE);
 	pantalla.drawString("A:CONTINUAR", 10, 205);
 	pantalla.drawString("B:REGRESAR", 10, 220);
-	pantalla.drawString("C:DESACT. PLATO", 155, 205);
+	pantalla.drawString("C:DESACT.PLATO", 155, 205);
 }
 
 void coloca_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentamiento_constante(uint16_t temperatura)
@@ -352,7 +352,7 @@ void colocar_elementos_de_fondo_del_menu_establecer_setpoint_para_un_calentamien
 	pantalla.setFreeFont(TT1);
 	pantalla.drawString("TEMP. INICIAL:", 10, 110, FONT2);
 	pantalla.setFreeFont(FMB9);
-	pantalla.fillRect(0, 210, 320, 30, MY_SKYBLUE);
+	pantalla.fillRect(0, 200, 320, 40, MY_SKYBLUE);
 	pantalla.drawString("A:CONTINUAR", 10, 205);
 	pantalla.drawString("B:REGRESAR", 10, 220);
 	pantalla.drawString("C:BORRAR", 180, 205);
@@ -375,13 +375,13 @@ void colocar_elementos_de_fondo_del_menu_establecer_setpoint_para_un_calentamien
 	pantalla.setFreeFont(TT1);
 	pantalla.drawString("TEMP. FINAL:", 10, 130, FONT2);
 	pantalla.setFreeFont(FMB9);
-	pantalla.fillRect(0, 210, 320, 30, MY_SKYBLUE);
+	pantalla.fillRect(0, 200, 320, 40, MY_SKYBLUE);
 	pantalla.drawString("A:CONTINUAR", 10, 205);
 	pantalla.drawString("B:REGRESAR", 10, 220);
 	pantalla.drawString("C:BORRAR", 180, 205);
 }
 
-void coloca_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentamiento_en_rampa_final(uint16_t temperatura)
+void colocar_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentamiento_en_rampa_final(uint16_t temperatura)
 {
 	pantalla.setFreeFont(TT1);
 	pantalla.fillRect(110, 130, 200, 15, MY_WHITE);
@@ -393,13 +393,29 @@ void coloca_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentam
 
 void colocar_elementos_de_fondo_del_menu_establecer_setpoint_de_agitacion()
 {
+	pantalla.fillRect(10, 170, 300, 30, MY_WHITE);
 	pantalla.setFreeFont(TT1);
 	pantalla.drawString("AGITACION:", 10, 150, FONT2);
 	pantalla.setFreeFont(FMB9);
-	pantalla.fillRect(0, 210, 320, 30, MY_SKYBLUE);
+	pantalla.fillRect(0, 200, 320, 40, MY_SKYBLUE);
 	pantalla.drawString("A:CONTINUAR", 10, 205);
 	pantalla.drawString("B:REGRESAR", 10, 220);
-	pantalla.drawString("C:DESACT. AGIT.", 155, 205);
+	pantalla.drawString("C:DESACT.AGIT.", 155, 205);
+}
+
+void colocar_valor_de_rpm_en_el_menu_establecer_setpoint_de_agitacion(uint16_t rpm)
+{
+	String valor_rpm;
+	pantalla.setFreeFont(TT1);
+	pantalla.fillRect(105, 150, 200, 15, MY_WHITE);
+	if(rpm == 0) {
+		valor_rpm = "AGIT. DESACT.";
+	} else {
+		valor_rpm = (String)rpm;
+		pantalla.drawString("RPM", 140, 150, FONT2);
+		pantalla.drawString("RPM.MAX:1200 RPM", 180, 150, FONT2);
+	}
+	pantalla.drawString(valor_rpm, 105, 150, FONT2);
 }
 
 void colocar_elementos_de_fondo_del_menu_mostrar_el_estado_del_enlace()

@@ -32,7 +32,8 @@ void elegir_sensor_de_temperatura();
 void elegir_funcion_de_calentamiento();
 void establecer_setpoint_para_un_calentamiento_constante();
 void establecer_setpoints_para_una_rampa_de_temperatura();
-void establecer_setpoint_de_agitacion();
+void establecer_setpoint_de_agitacion(bool func_anterior); //constante:false - rampa:true
+void establecer_minutos_para_mantener_setpoints(); 
 void monitorear_agitacion_y_temperatura();
 void mostrar_el_estado_del_enlace();
 #endif
