@@ -1,8 +1,8 @@
 #include "ComunicacionConMultiparrilla.h"
 
-
 uint8_t mac_multiparrilla[] = {0x40, 0x91, 0x51, 0xAB , 0x1B, 0xC0};
 uint8_t mac_HMI[] = {0x0C, 0xB8, 0x15, 0xC1, 0x9A, 0xD4};
+
 
 uint8_t num = 33;
 bool mensaje_recibido_por_la_multiparrilla;
@@ -23,7 +23,7 @@ void recibir_mensaje(const uint8_t *direccionMac, const uint8_t *mensaje, int lo
 
 
 
-void enviar_mensaje()
+void enviar_mensaje_de_prueba()
 {
     uint8_t a[] = {'C','a', 'r','a','c','t','e','r',':',' ', (char)num};
     ESPNow.send_message(mac_multiparrilla, a, sizeof(a));
@@ -36,10 +36,18 @@ void enviar_mensaje()
 
 }
 
+bool enviar_rutinas(Multiparrilla mensaje_rutina)
+{
+    ESPNow.send_message(mac_multiparrilla, reinterpret_cast<uint8_t*>(&mensaje_rutina), sizeof(mensaje_rutina));
+
+    return false;
+}
+
+
 bool obtener_estado_del_enlace()
 {
     mensaje_recibido_por_la_multiparrilla = false;
-    enviar_mensaje();
+    enviar_mensaje_de_prueba();
     esperar(30);
     esp_now_register_send_cb([](const uint8_t* mac, esp_now_send_status_t status) {
         status == ESP_NOW_SEND_SUCCESS ? mensaje_recibido_por_la_multiparrilla = true : mensaje_recibido_por_la_multiparrilla = false;

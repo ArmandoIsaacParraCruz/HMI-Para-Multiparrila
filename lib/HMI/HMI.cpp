@@ -454,6 +454,7 @@ void menu_agregar_o_cancelar_rutina(const bool funcion_de_temperatura)
 
     	if(caracter == 'A') {
 			menu_resumen_de_las_rutinas_configuradas();
+			break;
 		} else if(caracter == 'B') { 
 			multiparrilla.minutos_para_mantener_setpoints.pop_back();
 			establecer_minutos_para_mantener_setpoints(funcion_de_temperatura);
@@ -478,12 +479,13 @@ void menu_agregar_o_cancelar_rutina(const bool funcion_de_temperatura)
 
 void menu_resumen_de_las_rutinas_configuradas()
 {
-
+	enviar_rutinas_configuradas();
 
 }
 
 void enviar_rutinas_configuradas()
 {
+	enviar_rutinas(multiparrilla);
 }
 
 void monitorear_agitacion_y_temperatura()

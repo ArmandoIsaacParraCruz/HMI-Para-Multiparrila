@@ -4,13 +4,14 @@
 #include <string>
 #include <vector> 
 #include <ctype.h>
+#include <cstdint>
 #include "Pantalla.h"
 #include "Teclado.h"
 #include "ComunicacionConMultiparrilla.h"
 
 #define CANT_PLAZAS 6
 
-
+/*
 struct Multiparrilla {
     bool sensor_infrarrojo; 
     bool plazas_activadas[CANT_PLAZAS];
@@ -19,6 +20,7 @@ struct Multiparrilla {
     std::vector<uint16_t>setpoints_agitacion; 
     std::vector<uint32_t> minutos_para_mantener_setpoints; 
 };
+*/
 
 extern Multiparrilla multiparrilla;
 
