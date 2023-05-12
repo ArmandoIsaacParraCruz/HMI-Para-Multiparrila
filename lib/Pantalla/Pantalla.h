@@ -68,6 +68,12 @@ void colocar_elementos_de_fondo_del_menu_establecer_setpoint_de_agitacion();
 
 void colocar_valor_de_rpm_en_el_menu_establecer_setpoint_de_agitacion(uint16_t rpm);
 
+void colocar_elementos_de_fondo_del_menu_establecer_minutos_para_mantener_setpoints();
+
+void colocar_valor_de_minutos_en_el_menu_estalecer_minutos_para_mantener_setpoints(uint32_t minutos);
+
+void colocar_elementos_de_fondo_menu_agregar_o_cancelar_rutina();
+
 void colocar_elementos_de_fondo_del_menu_mostrar_el_estado_del_enlace();
 
 void mostrar_en_pantalla_el_estado_del_enlace(const bool conectado);

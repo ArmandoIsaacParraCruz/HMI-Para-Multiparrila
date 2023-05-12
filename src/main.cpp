@@ -12,12 +12,13 @@ void setup()
 void loop()
 {
     opcion = menu_principal();
-    if(opcion == 1)
-		configurar_agitacion_y_calentamiento();
-  	else if(opcion == 2)
-		monitorear_agitacion_y_temperatura();
-  	else if(opcion == 3)
-    	mostrar_el_estado_del_enlace();
+    if(opcion == 1) {
+        configurar_agitacion_y_calentamiento();
+    } else if(opcion == 2) {
+        monitorear_agitacion_y_temperatura();
+    } else if(opcion == 3) {
+        mostrar_el_estado_del_enlace();
+    }
 }
 
 

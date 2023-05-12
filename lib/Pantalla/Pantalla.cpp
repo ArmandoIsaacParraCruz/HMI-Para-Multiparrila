@@ -407,15 +407,45 @@ void colocar_valor_de_rpm_en_el_menu_establecer_setpoint_de_agitacion(uint16_t r
 {
 	String valor_rpm;
 	pantalla.setFreeFont(TT1);
-	pantalla.fillRect(105, 150, 200, 15, MY_WHITE);
+	pantalla.fillRect(85, 150, 220, 15, MY_WHITE);
 	if(rpm == 0) {
 		valor_rpm = "AGIT. DESACT.";
 	} else {
 		valor_rpm = (String)rpm;
-		pantalla.drawString("RPM", 140, 150, FONT2);
-		pantalla.drawString("RPM.MAX:1200 RPM", 180, 150, FONT2);
+		pantalla.drawString("RPM", 120, 150, FONT2);
+		pantalla.drawString("VEL.MAX:1200 RPM", 180, 150, FONT2);
 	}
-	pantalla.drawString(valor_rpm, 105, 150, FONT2);
+	pantalla.drawString(valor_rpm, 85, 150, FONT2);
+}
+
+void colocar_elementos_de_fondo_del_menu_establecer_minutos_para_mantener_setpoints()
+{
+	pantalla.fillRect(10, 190, 300, 10, MY_WHITE);
+	pantalla.setFreeFont(TT1);
+	pantalla.drawString("TIEMPO:", 10, 170, FONT2);
+	pantalla.setFreeFont(FMB9);
+	pantalla.fillRect(0, 200, 320, 40, MY_SKYBLUE);
+	pantalla.drawString("A:CONTINUAR", 10, 205);
+	pantalla.drawString("B:REGRESAR", 10, 220);
+	pantalla.drawString("C:BORRAR", 155, 205);
+}
+
+void colocar_valor_de_minutos_en_el_menu_estalecer_minutos_para_mantener_setpoints(uint32_t minutos)
+{
+	pantalla.setFreeFont(FMB9);
+	pantalla.fillRect(60, 170, 245, 15, MY_WHITE);
+	pantalla.drawString("MINUTOS", 110, 170, FONT2);
+	pantalla.drawString("MIN.MAX:65535 MIN", 180, 170, FONT2);
+	pantalla.drawString((String)minutos, 65, 170, FONT2);
+}
+
+void colocar_elementos_de_fondo_menu_agregar_o_cancelar_rutina()
+{
+	pantalla.fillRect(0, 200, 320, 40, MY_SKYBLUE);
+	pantalla.drawString("A:CONTINUAR", 10, 205);
+	pantalla.drawString("B:REGRESAR", 10, 220);
+	pantalla.drawString("C:CANCELAR", 150, 205);
+	pantalla.drawString("D:AGREGAR RUTINA", 140, 220);
 }
 
 void colocar_elementos_de_fondo_del_menu_mostrar_el_estado_del_enlace()
