@@ -29,15 +29,14 @@ uint8_t menu_principal(){
 	uint8_t opcion = 1;
   	char caracter = NO_KEY;
 
-  	//SE COLOCAN LOS RECUADROS DE FONDO PARA LAS OPCIONES
   	colocar_elementos_de_fondo_del_menu_principal();
-  	//BUCLE MENÚ QUE TERMINA CUANDO SE HA ELEGIDO UNA OPCIÓN    
-  	while(true){
+
+  	while(true) {
   		resaltar_opcion_en_posicion_actual_del_menu_principal(opcion);
     	mostrar_opciones_del_menu_principal();
     
     	caracter = NO_KEY;
-    	while(caracter == NO_KEY){
+    	while(caracter == NO_KEY) {
       		caracter = teclado.getKey();
       		if(caracter != 'C' && caracter != 'D' && caracter != 'A')
         		caracter = NO_KEY;
@@ -65,12 +64,12 @@ void configurar_agitacion_y_calentamiento()
 
 	colocar_elementos_de_fondo_del_menu_configurar_agitacion_y_calentamiento();
 	
-	while(true){
+	while(true) {
 		resaltar_opcion_en_posicion_actual_del_menu_configurar_agitacion_y_calentamiento(opcion);
     	mostrar_opciones_del_menu_configurar_agitacion_y_calentamiento();
 
 		caracter = NO_KEY;
-    	while(caracter == NO_KEY){
+    	while(caracter == NO_KEY) {
       		caracter = teclado.getKey();
       		if(caracter != 'C' && caracter != 'D' && caracter != 'A' && caracter != 'B')
         		caracter = NO_KEY;
@@ -112,7 +111,7 @@ void activar_o_desactivar_plazas()
 	while( i >= 0 && i < CANT_PLAZAS) {
 		resaltar_opcion_en_posicion_actual_del_menu_activar_o_desactivar_plazas(plazas_activadas, i, CANT_PLAZAS);
 		caracter = NO_KEY;
-    	while(caracter == NO_KEY){
+    	while(caracter == NO_KEY) {
       		caracter = teclado.getKey();
       		if(caracter != 'C' && caracter != 'D' && caracter != 'A' && caracter != 'B')
         		caracter = NO_KEY;
@@ -151,7 +150,7 @@ void activar_o_desactivar_plazas()
 	else{
 		desplegar_mensaje_de_que_no_se_ha_activado_ninguna_plaza();
 		caracter = NO_KEY;
-    	while(caracter == NO_KEY){
+    	while(caracter == NO_KEY) {
     		caracter = teclado.getKey();
   			if(caracter != 'C')
     			caracter = NO_KEY;
@@ -162,8 +161,7 @@ void activar_o_desactivar_plazas()
 
 bool validar_que_por_lo_menos_haya_una_plaza_activada()
 {
-	for(uint8_t i = 0; i < CANT_PLAZAS; ++i)
-	{
+	for(uint8_t i = 0; i < CANT_PLAZAS; ++i) {
 		if(multiparrilla.plazas_activadas[i])
 			return true;		
 	}
@@ -177,12 +175,12 @@ void elegir_sensor_de_temperatura()
 
 	colocar_elementos_de_fondo_del_menu_elegir_sensor_de_temperatura();
 
-	while(true){
+	while(true) {
 		resaltar_opcion_en_posicion_actual_del_menu_elegir_sensor_de_temperatura(opcion);
     	mostrar_opciones_del_menu_elegir_sensor_de_temperatura(multiparrilla.sensor_infrarrojo);
 
 		caracter = NO_KEY;
-    	while(caracter == NO_KEY){
+    	while(caracter == NO_KEY) {
       		caracter = teclado.getKey();
       		if(caracter != 'C' && caracter != 'D' && caracter != 'A' && caracter != 'B')
         		caracter = NO_KEY;
@@ -215,10 +213,10 @@ void elegir_funcion_de_calentamiento()
 	char caracter = NO_KEY; 
 	uint8_t opcion = 1; 
 	colocar_elementos_de_fondo_del_menu_elegir_funcion_de_calentamiento();
-	while(true){
+	while(true) {
     	mostrar_opciones_del_menu_elegir_funcion_de_calentamiento(opcion);
 		caracter = NO_KEY;
-    	while(caracter == NO_KEY){
+    	while(caracter == NO_KEY) {
       		caracter = teclado.getKey();
       		if(caracter != 'C' && caracter != 'D' && caracter != 'A' && caracter != 'B')
         		caracter = NO_KEY;
@@ -254,17 +252,16 @@ void establecer_setpoint_para_un_calentamiento_constante()
 	char caracter = NO_KEY;
 	String temperatura_en_texto = "0";
 	colocar_elementos_de_fondo_del_menu_establecer_setpoint_para_un_calentamiento_constante();
-	while(true){
+	while(true) {
 		coloca_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentamiento_constante(temperatura_en_texto.toInt());
 		caracter = NO_KEY;
-    	while(caracter == NO_KEY){
+    	while(caracter == NO_KEY) {
       		caracter = teclado.getKey();
       		if(caracter == '*' || caracter == '#' || caracter == 'D')
         		caracter = NO_KEY;
     	}
 
-		if(isdigit(caracter))
-		{
+		if(isdigit(caracter)) {
 			temperatura_en_texto += caracter;
 			if(temperatura_en_texto.toInt() > 999) {
 				temperatura_en_texto = caracter;
@@ -297,17 +294,16 @@ void establecer_setpoints_para_una_rampa_de_temperatura()
 	char caracter = NO_KEY;
 	String temperatura_inicial_en_texto = "0", temperatura_final_en_texto = "0";
 	colocar_elementos_de_fondo_del_menu_establecer_setpoint_para_un_calentamiento_en_rampa_inicial();
-	while(true){
+	while(true) {
 		coloca_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentamiento_en_rampa_inicial(temperatura_inicial_en_texto.toInt());
 		caracter = NO_KEY;
-    	while(caracter == NO_KEY){
+    	while(caracter == NO_KEY) {
       		caracter = teclado.getKey();
       		if(caracter == '*' || caracter == '#' || caracter == 'D')
         		caracter = NO_KEY;
     	}
 
-		if(isdigit(caracter))
-		{
+		if(isdigit(caracter)) {
 			temperatura_inicial_en_texto += caracter;
 			if(temperatura_inicial_en_texto.toInt() > 999) {
 				temperatura_inicial_en_texto = caracter;
@@ -330,17 +326,16 @@ void establecer_setpoints_para_una_rampa_de_temperatura()
     }
 
 	colocar_elementos_de_fondo_del_menu_establecer_setpoint_para_un_calentamiento_en_rampa_final();
-	while(true){
+	while(true) {
 		colocar_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentamiento_en_rampa_final(temperatura_final_en_texto.toInt());
 		caracter = NO_KEY;
-    	while(caracter == NO_KEY){
+    	while(caracter == NO_KEY) {
       		caracter = teclado.getKey();
       		if(caracter == '*' || caracter == '#' || caracter == 'D')
         		caracter = NO_KEY;
     	}
 
-		if(isdigit(caracter))
-		{
+		if(isdigit(caracter)) {
 			temperatura_final_en_texto += caracter;
 			if(temperatura_final_en_texto.toInt() > 999) {
 				temperatura_final_en_texto = caracter;
@@ -363,22 +358,21 @@ void establecer_setpoints_para_una_rampa_de_temperatura()
     }
 }
 
-void establecer_setpoint_de_agitacion(bool func_anterior)
+void establecer_setpoint_de_agitacion(const bool funcion_de_temperatura)
 {
 	char caracter = NO_KEY;
 	String rpm_en_texto = "0";
 	colocar_elementos_de_fondo_del_menu_establecer_setpoint_de_agitacion();
-	while(true){
+	while(true) {
 		colocar_valor_de_rpm_en_el_menu_establecer_setpoint_de_agitacion(rpm_en_texto.toInt());
 		caracter = NO_KEY;
-    	while(caracter == NO_KEY){
+    	while(caracter == NO_KEY) {
       		caracter = teclado.getKey();
       		if(caracter == '*' || caracter == '#' || caracter == 'D')
         		caracter = NO_KEY;
     	}
 
-		if(isdigit(caracter))
-		{
+		if(isdigit(caracter)) {
 			rpm_en_texto += caracter;
 			if(rpm_en_texto.toInt() > 9999) {
 				rpm_en_texto = caracter;
@@ -388,13 +382,13 @@ void establecer_setpoint_de_agitacion(bool func_anterior)
     	if(caracter == 'A') {
 			if(rpm_en_texto.toInt() <= 1200) {
 				multiparrilla.setpoints_agitacion.push_back(rpm_en_texto.toInt());
-				establecer_minutos_para_mantener_setpoints();
+				establecer_minutos_para_mantener_setpoints(funcion_de_temperatura);
 				break;
 			}
 		} else if(caracter == 'B') { 
 			multiparrilla.setpoints_temperatura.pop_back();
 			multiparrilla.funcion_de_temperatura.pop_back();
-			if(func_anterior) {
+			if(funcion_de_temperatura) {
 				multiparrilla.setpoints_temperatura.pop_back();
 				multiparrilla.funcion_de_temperatura.pop_back();
 				establecer_setpoints_para_una_rampa_de_temperatura();
@@ -409,9 +403,87 @@ void establecer_setpoint_de_agitacion(bool func_anterior)
 
 }
 
-void establecer_minutos_para_mantener_setpoints()
+void establecer_minutos_para_mantener_setpoints(const bool funcion_de_temperatura)
 {
-	
+	char caracter = NO_KEY;
+	String minutos_en_texto = "0";
+	colocar_elementos_de_fondo_del_menu_establecer_minutos_para_mantener_setpoints();
+	while(true) {
+		colocar_valor_de_minutos_en_el_menu_estalecer_minutos_para_mantener_setpoints(minutos_en_texto.toInt());
+		caracter = NO_KEY;
+    	while(caracter == NO_KEY) {
+      		caracter = teclado.getKey();
+      		if(caracter == '*' || caracter == '#' || caracter == 'D')
+        		caracter = NO_KEY;
+    	}
+
+		if(isdigit(caracter)) {
+			minutos_en_texto += caracter;
+			if(minutos_en_texto.toInt() > 99999) {
+				minutos_en_texto = caracter;
+			}
+		}
+
+    	if(caracter == 'A') {
+			if(minutos_en_texto.toInt() > 0 && minutos_en_texto.toInt() <= 65535) {
+				multiparrilla.minutos_para_mantener_setpoints.push_back(minutos_en_texto.toInt());
+				menu_agregar_o_cancelar_rutina(funcion_de_temperatura);
+				break;
+			}
+		} else if(caracter == 'B') { 
+			multiparrilla.setpoints_agitacion.pop_back();
+			establecer_setpoint_de_agitacion(funcion_de_temperatura);
+			break;
+		} else if(caracter == 'C') {
+			minutos_en_texto = "0";
+		}
+    }
+}
+
+void menu_agregar_o_cancelar_rutina(const bool funcion_de_temperatura)
+{
+	char caracter = NO_KEY;
+	colocar_elementos_de_fondo_menu_agregar_o_cancelar_rutina();
+	while(true) {
+		caracter = NO_KEY;
+    	while(caracter == NO_KEY){
+      		caracter = teclado.getKey();
+      		if(caracter != 'A' && caracter != 'B' && caracter != 'C' && caracter != 'D')
+        		caracter = NO_KEY;
+    	}
+
+    	if(caracter == 'A') {
+			menu_resumen_de_las_rutinas_configuradas();
+		} else if(caracter == 'B') { 
+			multiparrilla.minutos_para_mantener_setpoints.pop_back();
+			establecer_minutos_para_mantener_setpoints(funcion_de_temperatura);
+			break;
+		} else if(caracter == 'C') {
+			multiparrilla.setpoints_temperatura.pop_back();
+			multiparrilla.funcion_de_temperatura.pop_back();
+			if(funcion_de_temperatura) {
+				multiparrilla.setpoints_temperatura.pop_back();
+				multiparrilla.funcion_de_temperatura.pop_back();
+			}
+			multiparrilla.setpoints_agitacion.pop_back();
+			multiparrilla.minutos_para_mantener_setpoints.pop_back();
+			elegir_funcion_de_calentamiento();
+			break;
+		} else if(caracter == 'D') {
+			//elegir_funcion_de_calentamiento();
+			break;
+		}
+    }
+}
+
+void menu_resumen_de_las_rutinas_configuradas()
+{
+
+
+}
+
+void enviar_rutinas_configuradas()
+{
 }
 
 void monitorear_agitacion_y_temperatura()
