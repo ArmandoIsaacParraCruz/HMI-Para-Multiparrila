@@ -9,22 +9,13 @@
 #include "Teclado.h"
 #include "ComunicacionConMultiparrilla.h"
 
-#define CANT_PLAZAS 6
-
-/*
-struct Multiparrilla {
-    bool sensor_infrarrojo; 
-    bool plazas_activadas[CANT_PLAZAS];
-    std::vector<uint16_t>setpoints_temperatura;
-    std::vector<char>funcion_de_temperatura;
-    std::vector<uint16_t>setpoints_agitacion; 
-    std::vector<uint32_t> minutos_para_mantener_setpoints; 
-};
-*/
+#define DESACTIVADO -1
 
 extern Multiparrilla multiparrilla;
 
-void inicializar_plazas();
+extern uint8_t no_de_funcion;
+
+void inicializar_datos_de_plazas();
 
 void inicializar_HMI();
 

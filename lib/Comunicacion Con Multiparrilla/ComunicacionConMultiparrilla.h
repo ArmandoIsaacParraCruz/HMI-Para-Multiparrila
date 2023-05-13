@@ -5,18 +5,19 @@
 #include "ESPNowW.h"
 #include <vector> 
 
-#define CANT_PLAZAS 6
+#define CANTIDAD_DE_PLAZAS 6
+#define CANTIDAD_MAXIMA_DE_FUNCIONES 20
 
 extern uint8_t mac_multiparrilla[];
 extern uint8_t mac_HMI[];
 
 struct Multiparrilla {
     bool sensor_infrarrojo; 
-    bool plazas_activadas[CANT_PLAZAS];
-    std::vector<uint16_t>setpoints_temperatura;
-    std::vector<char>funcion_de_temperatura;
-    std::vector<uint16_t>setpoints_agitacion; 
-    std::vector<uint32_t> minutos_para_mantener_setpoints; 
+    bool plazas_activadas[CANTIDAD_DE_PLAZAS];
+    uint16_t setpoints_temperatura[CANTIDAD_MAXIMA_DE_FUNCIONES*2];
+    char tipo_de_funcion_de_temperatura[CANTIDAD_MAXIMA_DE_FUNCIONES];
+    uint16_t setpoints_agitacion[CANTIDAD_MAXIMA_DE_FUNCIONES]; 
+    uint32_t minutos_para_mantener_setpoints[CANTIDAD_MAXIMA_DE_FUNCIONES];
 };
 
 void inicializar_comunicacion_con_multiparrilla();

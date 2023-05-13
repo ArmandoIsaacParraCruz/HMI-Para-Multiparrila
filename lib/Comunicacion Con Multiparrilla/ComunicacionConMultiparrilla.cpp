@@ -17,7 +17,7 @@ void inicializar_comunicacion_con_multiparrilla()
     ESPNow.add_peer(mac_multiparrilla);
 }
 
-void recibir_mensaje(const uint8_t *direccionMac, const uint8_t *mensaje, int longitudMensaje) {
+void recibir_mensaje(const uint8_t *direccion_mac, const uint8_t *mensaje, int longitud_del_mensaje) {
    //////////////////////////////////////////////////////////
 }
 
@@ -38,7 +38,38 @@ void enviar_mensaje_de_prueba()
 
 bool enviar_rutinas(Multiparrilla mensaje_rutina)
 {
+    Serial.print("Sensor infrarrojo: ");Serial.println(mensaje_rutina.sensor_infrarrojo);
+    Serial.println("Plazas_activadas:");
+    for(uint8_t i = 0; i < CANTIDAD_DE_PLAZAS; ++i) {
+        Serial.print(i+1);Serial.print(": ");Serial.println(mensaje_rutina.plazas_activadas[i]);
+    }
+
+    Serial.println(" ");
+    Serial.println("Setpoints de temperatura:");
+    for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_FUNCIONES * 2; ++i) {
+        Serial.println(mensaje_rutina.setpoints_temperatura[i]);
+    }
+
+    Serial.println(" ");
+    Serial.println("Funciones de temperatura:");
+    for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_FUNCIONES; ++i) {
+        Serial.println(mensaje_rutina.tipo_de_funcion_de_temperatura[i]);
+    }
+
+    Serial.println(" ");
+    Serial.println("Setpoints de agitación");
+    for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_FUNCIONES; ++i) {
+        Serial.println(mensaje_rutina.setpoints_agitacion[i]);
+    }
+
+    Serial.println(" ");
+    Serial.println("Minutos para mantener setpoints");
+    for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_FUNCIONES; ++i) {
+        Serial.println(mensaje_rutina.minutos_para_mantener_setpoints[i]);
+    }
+    
     ESPNow.send_message(mac_multiparrilla, reinterpret_cast<uint8_t*>(&mensaje_rutina), sizeof(mensaje_rutina));
+
 
     return false;
 }
