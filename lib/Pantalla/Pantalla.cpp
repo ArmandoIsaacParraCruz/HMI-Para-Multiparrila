@@ -206,12 +206,13 @@ void resaltar_opcion_en_posicion_actual_del_menu_activar_o_desactivar_plazas(boo
 	pantalla.fillRect(x + 50*indice_plaza_actual, 6, 30, 30, color_recuadro_numero);
 	pantalla.fillRect(45, 155, 240, 40, color_recuadro_texto);
 	pantalla.drawString((String)(indice_plaza_actual + 1),x + 50 * indice_plaza_actual + 4, 6);
-	pantalla.fillRect(40, 90, 250, 50, MY_WHITE);
+	pantalla.fillRect(40, 90, 250, 50, color_recuadro_numero);
 	pantalla.setFreeFont(FMB9);
 	pantalla.drawString("PLAZA", 110, 95);
 	pantalla.drawString((String)(indice_plaza_actual + 1), 190, 95);
 	pantalla.drawString(texto_estado_de_la_plaza, 110, 115);
-	pantalla.drawString(texto_opcion_activar_o_desactivar, 110 + espacio_texto_activar_o_desactivar, 168);
+	pantalla.drawString("PRESIONE 'A' PARA", 70, 158);
+	pantalla.drawString(texto_opcion_activar_o_desactivar, 110 + espacio_texto_activar_o_desactivar, 178);
 }
 
 void colocar_en_gris_el_marco_del_numero_de_la_plaza_actual(uint8_t plaza)
@@ -293,7 +294,7 @@ void colocar_elementos_de_fondo_del_menu_elegir_funcion_de_calentamiento()
 	uint32_t x1_1 = 283,y1_1 = 222, x2_1 = 283, y2_1 = 232, x3_1 = 293, y3_1 = 227,
          	 x1_2 = 280,y1_2 = 222, x2_2 = 280, y2_2 = 232, x3_2 = 270, y3_2 = 227;
 	pantalla.fillRect(0, 90, 320, 250, MY_SKYBLUE);
-	pantalla.fillRect(10, 90, 300, 110, MY_WHITE);
+	pantalla.fillRect(10, 90, 300, 100, MY_WHITE);
 	pantalla.setFreeFont(FMB9);
 	pantalla.drawString("A:ELEGIR", 10, 220);
 	pantalla.drawString("B:REGRESAR", 120, 220);
@@ -319,7 +320,7 @@ void mostrar_opciones_del_menu_elegir_funcion_de_calentamiento(uint8_t opcion)
 
 void colocar_elementos_de_fondo_del_menu_establecer_setpoint_para_un_calentamiento_constante()
 {
-	pantalla.fillRect(10, 110, 300, 90, MY_WHITE);
+	pantalla.fillRect(10, 110, 300, 80, MY_WHITE);
 	pantalla.setFreeFont(TT1);
 	pantalla.drawString("TEMPERATURA:", 10, 110, FONT2);
 	pantalla.setFreeFont(FMB9);
@@ -335,7 +336,7 @@ void coloca_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentam
 	pantalla.setFreeFont(TT1);
 	pantalla.fillRect(110, 110, 200, 15, MY_WHITE);
 	if(temperatura == 0) {
-		valor_temperatura = "PLATO DESACTIVADO";
+		valor_temperatura = "CALENTAMIENTO DESACTIVADO";
 	} else {
 		valor_temperatura = (String)temperatura;
 		pantalla.drawString("C", 145, 110, FONT2);
@@ -348,7 +349,7 @@ void coloca_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentam
 
 void colocar_elementos_de_fondo_del_menu_establecer_setpoint_para_un_calentamiento_en_rampa_inicial()
 {
-	pantalla.fillRect(10, 130, 300, 70, MY_WHITE);
+	pantalla.fillRect(10, 130, 300, 60, MY_WHITE);
 	pantalla.setFreeFont(TT1);
 	pantalla.drawString("TEMP. INICIAL:", 10, 110, FONT2);
 	pantalla.setFreeFont(FMB9);
@@ -371,7 +372,7 @@ void coloca_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calentam
 
 void colocar_elementos_de_fondo_del_menu_establecer_setpoint_para_un_calentamiento_en_rampa_final()
 {
-	pantalla.fillRect(10, 150, 300, 50, MY_WHITE);
+	pantalla.fillRect(10, 150, 300, 40, MY_WHITE);
 	pantalla.setFreeFont(TT1);
 	pantalla.drawString("TEMP. FINAL:", 10, 130, FONT2);
 	pantalla.setFreeFont(FMB9);
@@ -391,38 +392,51 @@ void colocar_valor_de_temperatura_en_el_menu_establecer_setpoint_para_un_calenta
 }
 
 
-void colocar_elementos_de_fondo_del_menu_establecer_setpoint_de_agitacion()
+void colocar_elementos_de_fondo_del_menu_establecer_setpoint_de_agitacion(bool agregar_espacio)
 {
-	pantalla.fillRect(10, 170, 300, 30, MY_WHITE);
+	uint8_t espacio = 0;
+	if(agregar_espacio) {
+		espacio = 20;
+	}
+	pantalla.fillRect(10, 150 + espacio, 300, 20, MY_WHITE);
 	pantalla.setFreeFont(TT1);
-	pantalla.drawString("AGITACION:", 10, 150, FONT2);
+	pantalla.drawLine(63,129 + espacio,65,128 + espacio, MY_BLACK);
+	pantalla.drawString("AGITACION:", 10, 130 + espacio, FONT2);
 	pantalla.setFreeFont(FMB9);
 	pantalla.fillRect(0, 200, 320, 40, MY_SKYBLUE);
 	pantalla.drawString("A:CONTINUAR", 10, 205);
 	pantalla.drawString("B:REGRESAR", 10, 220);
-	pantalla.drawString("C:DESACT.AGIT.", 155, 205);
+	pantalla.drawString("C:DESACT. AGIT.", 155, 205);
 }
 
-void colocar_valor_de_rpm_en_el_menu_establecer_setpoint_de_agitacion(uint16_t rpm)
+void colocar_valor_de_rpm_en_el_menu_establecer_setpoint_de_agitacion(uint16_t rpm, bool agregar_espacio)
 {
+	uint8_t espacio = 0;
+	if(agregar_espacio) {
+		espacio = 20;
+	}
 	String valor_rpm;
 	pantalla.setFreeFont(TT1);
-	pantalla.fillRect(85, 150, 220, 15, MY_WHITE);
+	pantalla.fillRect(85, 130 + espacio, 220, 15, MY_WHITE);
 	if(rpm == 0) {
-		valor_rpm = "AGIT. DESACT.";
+		valor_rpm = "DESACTIVADA";
 	} else {
 		valor_rpm = (String)rpm;
-		pantalla.drawString("RPM", 120, 150, FONT2);
-		pantalla.drawString("VEL.MAX:1200 RPM", 180, 150, FONT2);
+		pantalla.drawString("RPM", 120, 130 + espacio, FONT2);
+		pantalla.drawString("VEL.MAX:1200 RPM", 180, 130 + espacio, FONT2);
 	}
-	pantalla.drawString(valor_rpm, 85, 150, FONT2);
+	pantalla.drawString(valor_rpm, 85, 130 + espacio, FONT2);
 }
 
-void colocar_elementos_de_fondo_del_menu_establecer_minutos_para_mantener_setpoints()
+void colocar_elementos_de_fondo_del_menu_establecer_minutos_para_mantener_setpoints(bool agregar_espacio)
 {
-	pantalla.fillRect(10, 190, 300, 10, MY_WHITE);
+	uint8_t espacio = 0;
+	if(agregar_espacio) {
+		espacio = 20;
+	}
+	//pantalla.fillRect(10, 190, 300, 10, MY_WHITE);
 	pantalla.setFreeFont(TT1);
-	pantalla.drawString("TIEMPO:", 10, 170, FONT2);
+	pantalla.drawString("TIEMPO:", 10, 150 + espacio, FONT2);
 	pantalla.setFreeFont(FMB9);
 	pantalla.fillRect(0, 200, 320, 40, MY_SKYBLUE);
 	pantalla.drawString("A:CONTINUAR", 10, 205);
@@ -430,13 +444,17 @@ void colocar_elementos_de_fondo_del_menu_establecer_minutos_para_mantener_setpoi
 	pantalla.drawString("C:BORRAR", 155, 205);
 }
 
-void colocar_valor_de_minutos_en_el_menu_estalecer_minutos_para_mantener_setpoints(uint32_t minutos)
+void colocar_valor_de_minutos_en_el_menu_estalecer_minutos_para_mantener_setpoints(uint32_t minutos, bool agregar_espacio)
 {
+	uint8_t espacio = 0;
+	if(agregar_espacio) {
+		espacio = 20;
+	}
 	pantalla.setFreeFont(FMB9);
-	pantalla.fillRect(60, 170, 245, 15, MY_WHITE);
-	pantalla.drawString("MINUTOS", 110, 170, FONT2);
-	pantalla.drawString("MIN.MAX:65535 MIN", 180, 170, FONT2);
-	pantalla.drawString((String)minutos, 65, 170, FONT2);
+	pantalla.fillRect(60, 150 + espacio, 245, 15, MY_WHITE);
+	pantalla.drawString("MINUTOS", 110, 150 + espacio, FONT2);
+	pantalla.drawString("MIN.MAX:65000 MIN", 180, 150 + espacio, FONT2);
+	pantalla.drawString((String)minutos, 65, 150 + espacio, FONT2);
 }
 
 void colocar_elementos_de_fondo_menu_agregar_o_cancelar_rutina()

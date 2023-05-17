@@ -375,9 +375,9 @@ void establecer_setpoint_de_agitacion(const bool funcion_de_temperatura)
 {
 	char caracter = NO_KEY;
 	String rpm_en_texto = "0";
-	colocar_elementos_de_fondo_del_menu_establecer_setpoint_de_agitacion();
+	colocar_elementos_de_fondo_del_menu_establecer_setpoint_de_agitacion(funcion_de_temperatura);
 	while(true) {
-		colocar_valor_de_rpm_en_el_menu_establecer_setpoint_de_agitacion(rpm_en_texto.toInt());
+		colocar_valor_de_rpm_en_el_menu_establecer_setpoint_de_agitacion(rpm_en_texto.toInt(),funcion_de_temperatura);
 		caracter = NO_KEY;
     	while(caracter == NO_KEY) {
       		caracter = teclado.getKey();
@@ -418,9 +418,9 @@ void establecer_minutos_para_mantener_setpoints(const bool funcion_de_temperatur
 {
 	char caracter = NO_KEY;
 	String minutos_en_texto = "0";
-	colocar_elementos_de_fondo_del_menu_establecer_minutos_para_mantener_setpoints();
+	colocar_elementos_de_fondo_del_menu_establecer_minutos_para_mantener_setpoints(funcion_de_temperatura);
 	while(true) {
-		colocar_valor_de_minutos_en_el_menu_estalecer_minutos_para_mantener_setpoints(minutos_en_texto.toInt());
+		colocar_valor_de_minutos_en_el_menu_estalecer_minutos_para_mantener_setpoints(minutos_en_texto.toInt(), funcion_de_temperatura);
 		caracter = NO_KEY;
     	while(caracter == NO_KEY) {
       		caracter = teclado.getKey();
@@ -436,7 +436,7 @@ void establecer_minutos_para_mantener_setpoints(const bool funcion_de_temperatur
 		}
 
     	if(caracter == 'A') {
-			if(minutos_en_texto.toInt() > 0 && minutos_en_texto.toInt() <= 65535) {
+			if(minutos_en_texto.toInt() > 0 && minutos_en_texto.toInt() <= 65000) {
 				multiparrilla.minutos_para_mantener_setpoints[no_de_funcion] = minutos_en_texto.toInt();
 				menu_agregar_o_cancelar_rutina(funcion_de_temperatura);
 				break;
