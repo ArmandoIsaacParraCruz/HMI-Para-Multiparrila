@@ -9,7 +9,7 @@
 #include "Teclado.h"
 #include "ComunicacionConMultiparrilla.h"
 
-#define DESACTIVADO -1
+#define DESACTIVADO 0
 
 extern Multiparrilla multiparrilla;
 
@@ -29,21 +29,19 @@ bool validar_que_por_lo_menos_haya_una_plaza_activada();
 
 void elegir_sensor_de_temperatura();
 
-void elegir_funcion_de_calentamiento();
+void configurar_rutina_de_calentamiento_y_agitacion();
 
-void establecer_setpoint_para_un_calentamiento_constante();
+char elegir_funcion_de_calentamiento(const uint8_t numero_de_rutina);
 
-void establecer_setpoints_para_una_rampa_de_temperatura();
+char establecer_primer_setpoint_de_temperatura(const uint8_t numero_de_rutina);
 
-void establecer_setpoint_de_agitacion(const bool funcion_de_temperatura); //constante:false - rampa:true
+char establecer_segundo_setpoint_de_temperatura(const uint8_t numero_de_rutina);
 
-void establecer_minutos_para_mantener_setpoints(const bool funcion_de_tempratura);
+char establecer_setpoint_de_agitacion(const uint8_t numero_de_rutina); 
 
-void menu_agregar_o_cancelar_rutina(const bool funcion_de_temperatura);
+char establecer_minutos_para_mantener_setpoints(const uint8_t numero_de_rutina);
 
 void menu_resumen_de_las_rutinas_configuradas();
-
-void enviar_rutinas_configuradas();
 
 void monitorear_agitacion_y_temperatura();
 

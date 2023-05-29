@@ -46,25 +46,25 @@ bool enviar_rutinas(Multiparrilla mensaje_rutina)
 
     Serial.println(" ");
     Serial.println("Setpoints de temperatura:");
-    for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_FUNCIONES * 2; ++i) {
+    for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_RUTINAS * 2; ++i) {
         Serial.println(mensaje_rutina.setpoints_temperatura[i]);
     }
 
     Serial.println(" ");
     Serial.println("Funciones de temperatura:");
-    for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_FUNCIONES; ++i) {
+    for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_RUTINAS; ++i) {
         Serial.println(mensaje_rutina.tipo_de_funcion_de_temperatura[i]);
     }
 
     Serial.println(" ");
     Serial.println("Setpoints de agitación");
-    for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_FUNCIONES; ++i) {
+    for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_RUTINAS; ++i) {
         Serial.println(mensaje_rutina.setpoints_agitacion[i]);
     }
 
     Serial.println(" ");
     Serial.println("Minutos para mantener setpoints");
-    for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_FUNCIONES; ++i) {
+    for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_RUTINAS; ++i) {
         Serial.println(mensaje_rutina.minutos_para_mantener_setpoints[i]);
     }
     
