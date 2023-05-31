@@ -435,7 +435,7 @@ bool verificar_si_la_rutina_ha_sido_correctamente_configurada(const uint8_t nume
 		if(multiparrilla.setpoints_temperatura[numero_de_rutina * 2] > 300) {
 			return false;
 		}
-		if(multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] <= 0 || multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] > multiparrilla.setpoints_temperatura[numero_de_rutina * 2]) {
+		if(multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] <= 0 || multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] < multiparrilla.setpoints_temperatura[numero_de_rutina * 2]) {
 			return false;
 		} 
 	}
