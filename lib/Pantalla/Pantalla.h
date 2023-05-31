@@ -62,6 +62,8 @@ void coloca_valor_de_agitacion_en_la_opcion_establecer_setpoint_de_agitacion(con
 
 void coloca_valor_de_tiempo_en_la_opcion_establecer_minutos_para_mantener_setpoints(const String tiempo, const char funcion_de_temperatura);
 
+
+
 void colocar_elementos_de_fondo_del_menu_mostrar_el_estado_del_enlace();
 
 void mostrar_en_pantalla_el_estado_del_enlace(const bool conectado);

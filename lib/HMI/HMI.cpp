@@ -234,12 +234,13 @@ struct Multiparrilla {
 
 void configurar_rutina_de_calentamiento_y_agitacion()
 {
-	uint8_t numero_de_rutina = 0, posicion_del_cursor = 0;
-	
+	uint8_t numero_de_rutina = 0, posicion_del_cursor = 0, numero_de_rutinas_configuradas = 0;
 	char caracter = NO_KEY;
+
 	colocar_elementos_de_fondo_del_menu_configurar_rutina_de_calentamiento_y_agitacion(multiparrilla.plazas_activadas, CANTIDAD_DE_PLAZAS);
+	
 	while(numero_de_rutina < CANTIDAD_MAXIMA_DE_RUTINAS) {
-		Serial.println(posicion_del_cursor);
+		Serial.println(numero_de_rutina);
 		
 		mostrar_numero_de_rutina_y_posicion_del_cursor(numero_de_rutina, posicion_del_cursor, multiparrilla.tipo_de_funcion_de_temperatura[numero_de_rutina]);
 
@@ -264,12 +265,32 @@ void configurar_rutina_de_calentamiento_y_agitacion()
 		if(caracter == 'B'){
 			if(numero_de_rutina == 0) {
 				elegir_sensor_de_temperatura();
+				return;
 			} else {
 				numero_de_rutina -=1;
+				posicion_del_cursor = 0;
+				continue;
 			}
 			return;
 		} else if(caracter == 'C') {
-			
+			if(verificar_si_la_rutina_ha_sido_correctamente_configurada(numero_de_rutina)) {
+				if(numero_de_rutina == CANTIDAD_MAXIMA_DE_RUTINAS - 1) {
+					confirmar_rutinas_programadas();
+					return;
+				} else {
+					numero_de_rutinas_configuradas++;
+					if(agregar_o_confirmar_rutinas_programadas()) {
+						numero_de_rutina++;
+						posicion_del_cursor = 0;
+						continue;
+					} else {
+						confirmar_rutinas_programadas();
+						return;
+					}
+				}
+			} else {
+				continue;
+			}
 		} else if(caracter == 'D') {
 			posicion_del_cursor++;
 			if(posicion_del_cursor > 4) {
@@ -391,6 +412,53 @@ char establecer_minutos_para_mantener_setpoints(const uint8_t numero_de_rutina)
 		}
 	}
 	return caracter;
+}
+
+bool verificar_si_la_rutina_ha_sido_correctamente_configurada(const uint8_t numero_de_rutina)
+{
+	if(multiparrilla.setpoints_agitacion[numero_de_rutina] > 1200) {
+		return false;
+	} 
+	if(multiparrilla.minutos_para_mantener_setpoints[numero_de_rutina] <= 0) {
+		return false;
+	}
+
+	if(multiparrilla.tipo_de_funcion_de_temperatura[numero_de_rutina] == 'c') {
+		if(multiparrilla.setpoints_temperatura[numero_de_rutina * 2] <= 0 && multiparrilla.setpoints_agitacion[numero_de_rutina] <= 0) {
+			return false;
+		}
+		if(multiparrilla.setpoints_temperatura[numero_de_rutina * 2] > 300) {
+			return false;
+		}
+		multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] = multiparrilla.setpoints_temperatura[numero_de_rutina * 2];
+	} else {
+		if(multiparrilla.setpoints_temperatura[numero_de_rutina * 2] > 300) {
+			return false;
+		}
+		if(multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] <= 0 || multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] > multiparrilla.setpoints_temperatura[numero_de_rutina * 2]) {
+			return false;
+		} 
+	}
+	
+    return true;
+}
+
+bool agregar_o_confirmar_rutinas_programadas()
+{
+    return true;
+}
+
+void confirmar_rutinas_programadas()
+{
+	for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_RUTINAS; ++i) {
+		Serial.println("Rutina " + (String)(i) + ":");
+		Serial.println("Tipo de función: " + (String)(multiparrilla.tipo_de_funcion_de_temperatura[i]));
+		Serial.println("Temp1:" + (String)(multiparrilla.setpoints_temperatura[i * 2]));
+		Serial.println("Temp2: " + (String)(multiparrilla.setpoints_temperatura[i * 2 + 1]));
+		Serial.println("Agitación:" + (String)(multiparrilla.setpoints_agitacion[i]));
+		Serial.println("Tiempo:" + (String)(multiparrilla.minutos_para_mantener_setpoints[i]));
+		Serial.println("");
+	}
 }
 
 void monitorear_agitacion_y_temperatura()

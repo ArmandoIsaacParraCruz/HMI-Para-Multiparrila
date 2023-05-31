@@ -510,6 +510,8 @@ void coloca_valor_de_tiempo_en_la_opcion_establecer_minutos_para_mantener_setpoi
 	}
 }
 
+
+
 void colocar_elementos_de_fondo_del_menu_mostrar_el_estado_del_enlace()
 {
 	pantalla.fillScreen(MY_SKYBLUE);

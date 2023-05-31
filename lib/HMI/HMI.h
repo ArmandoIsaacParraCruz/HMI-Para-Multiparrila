@@ -41,6 +41,12 @@ char establecer_setpoint_de_agitacion(const uint8_t numero_de_rutina);
 
 char establecer_minutos_para_mantener_setpoints(const uint8_t numero_de_rutina);
 
+bool verificar_si_la_rutina_ha_sido_correctamente_configurada(const uint8_t numero_de_rutina);
+
+bool agregar_o_confirmar_rutinas_programadas();
+
+void confirmar_rutinas_programadas();
+
 void menu_resumen_de_las_rutinas_configuradas();
 
 void monitorear_agitacion_y_temperatura();
