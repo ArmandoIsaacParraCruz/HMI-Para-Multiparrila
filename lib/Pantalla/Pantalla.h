@@ -24,7 +24,9 @@ void resaltar_opcion_en_posicion_actual_del_menu_principal(uint8_t );
 
 void mostrar_opcion_elegida_en_el_menu_principal(uint8_t);
 
-void colocar_elementos_de_fondo_del_menu_configurar_agitacion_y_calentamiento();
+void mostrar_que_la_multiparrilla_no_esta_conectada_en_el_menu_configurar_agitacion_y_calentamiento();
+
+void mostrar_que_se_ha_restablecido_la_conexion_en_el_menu_configurar_agitacion_y_calentamiento();
 
 void mostrar_imagen_multiparrilla();
 
@@ -56,13 +58,11 @@ void colocar_elementos_de_la_opcion_elegir_funcion_de_calentamiento(const uint16
 
 void coloca_valor_de_temperatura_en_la_opcion_establecer_primer_setpoint_de_temperatura(const String temperatura, const char funcion_de_temperatura);
 
-void coloca_valor_de_temperatura_en_la_opcion_establecer_segundo_setpoint_de_temperatura(const String temperatura);
+void coloca_valor_de_temperatura_en_la_opcion_establecer_segundo_setpoint_de_temperatura(const String segunda_temperatura, const uint16_t primera_temperatura);
 
 void coloca_valor_de_agitacion_en_la_opcion_establecer_setpoint_de_agitacion(const String agitacion, const char funcion_de_temperatura);
 
 void coloca_valor_de_tiempo_en_la_opcion_establecer_minutos_para_mantener_setpoints(const String tiempo, const char funcion_de_temperatura);
-
-
 
 void colocar_elementos_de_fondo_del_menu_mostrar_el_estado_del_enlace();
 

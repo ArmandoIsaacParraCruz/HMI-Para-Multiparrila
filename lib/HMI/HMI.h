@@ -1,8 +1,6 @@
 #ifndef HMI_h
 #define HMI_h
 #include <Arduino.h>
-#include <string>
-#include <vector> 
 #include <ctype.h>
 #include <cstdint>
 #include "Pantalla.h"
@@ -19,7 +17,7 @@ void inicializar_datos_de_plazas();
 
 void inicializar_HMI();
 
-uint8_t menu_principal();
+void menu_principal();
 
 void configurar_agitacion_y_calentamiento();
 
@@ -43,9 +41,9 @@ char establecer_minutos_para_mantener_setpoints(const uint8_t numero_de_rutina);
 
 bool verificar_si_la_rutina_ha_sido_correctamente_configurada(const uint8_t numero_de_rutina);
 
-bool agregar_o_confirmar_rutinas_programadas();
+bool agregar_o_confirmar_rutinas_configuradas();
 
-void confirmar_rutinas_programadas();
+void confirmar_rutinas_configuradas();
 
 void menu_resumen_de_las_rutinas_configuradas();
 

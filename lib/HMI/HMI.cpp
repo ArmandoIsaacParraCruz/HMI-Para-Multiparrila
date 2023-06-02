@@ -29,7 +29,7 @@ void inicializar_HMI()
 
 
 
-uint8_t menu_principal(){
+void menu_principal(){
   
 	uint8_t opcion = 1;
   	char caracter = NO_KEY;
@@ -37,72 +37,75 @@ uint8_t menu_principal(){
   	colocar_elementos_de_fondo_del_menu_principal();
 
   	while(true) {
+		
   		resaltar_opcion_en_posicion_actual_del_menu_principal(opcion);
     	mostrar_opciones_del_menu_principal();
-    
-    
     	while(caracter == NO_KEY) {
       		caracter = teclado.getKey();
-      		if(caracter != 'C' && caracter != 'D' && caracter != 'A')
-        		caracter = NO_KEY;
+      		if(caracter != 'C' && caracter != 'D' && caracter != 'A') {
+				caracter = NO_KEY;
+			}
     	}
-    
-    	if(caracter == 'C')
-      		opcion--;
-    	else if(caracter == 'D')
+		Serial.print("caracter ");Serial.println(caracter);
+		
+
+		if(caracter == 'A'){
+			if(opcion == 1) {
+        		configurar_agitacion_y_calentamiento();
+    		} else if(opcion == 2) {
+        		monitorear_agitacion_y_temperatura();
+    		} else if(opcion == 3) {
+        		mostrar_el_estado_del_enlace();
+			}  
+		} else if(caracter == 'D'){
     		opcion++;
-    	else if(caracter == 'A')
-    		break;
+		} else if(caracter == 'C') {
+			opcion--;
+		}
     
 
-    	if(opcion > 3)
-      		opcion = 1;  
-    	else if(opcion < 1)
+    	if(opcion > 3) {
+      		opcion = 1; 
+		} else if(opcion < 1) {
       		opcion = 3;
-
+		}
+		
 		caracter = NO_KEY;
   }
-  return opcion;  
+ 
 }
 
 void configurar_agitacion_y_calentamiento()
 {
-	inicializar_datos_de_plazas();
-	uint8_t opcion = 1; char caracter = NO_KEY;
+	char caracter = NO_KEY;
+	bool conectado = obtener_estado_del_enlace();
+	uint32_t tiempo_actual = millis();
+	if(!conectado) {
+		mostrar_que_la_multiparrilla_no_esta_conectada_en_el_menu_configurar_agitacion_y_calentamiento();
+		while(caracter == NO_KEY){
+    		caracter = teclado.getKey();
+			if(caracter == 'C'){
+				break;
+			} else if(caracter == 'B') {
+				menu_principal();
+				return;
+			} else {
+				caracter = NO_KEY;
+			}
 
-	colocar_elementos_de_fondo_del_menu_configurar_agitacion_y_calentamiento();
-	
-	while(true) {
-		resaltar_opcion_en_posicion_actual_del_menu_configurar_agitacion_y_calentamiento(opcion);
-    	mostrar_opciones_del_menu_configurar_agitacion_y_calentamiento();
-
-    	while(caracter == NO_KEY) {
-      		caracter = teclado.getKey();
-      		if(caracter != 'C' && caracter != 'D' && caracter != 'A' && caracter != 'B')
-        		caracter = NO_KEY;
-    	}
-    
-    	if(caracter == 'C')
-      		opcion--;
-    	else if(caracter == 'D')
-    		opcion++;
-		else if(caracter == 'A'){
-			if(opcion == 1)
-				activar_o_desactivar_plazas();
-				//configuracionIndividual();
-			return;
+			if(millis() - tiempo_actual >= 500) {
+				tiempo_actual = millis();
+				conectado = obtener_estado_del_enlace();
+				if(conectado){
+					mostrar_que_se_ha_restablecido_la_conexion_en_el_menu_configurar_agitacion_y_calentamiento();
+					delay(3000);
+					break;
+				}
+			}
 		}
-    	else if(caracter == 'B')
-    		break;
-    
-
-    	if(opcion > 2)
-      		opcion = 1;  
-    	else if(opcion < 1)
-      		opcion = 2;
-		
-		caracter = NO_KEY;
     }
+	inicializar_datos_de_plazas();
+	activar_o_desactivar_plazas();
 }
 
 void activar_o_desactivar_plazas()
@@ -138,7 +141,7 @@ void activar_o_desactivar_plazas()
 		}
 
 		else if(caracter == 'B'){
-			configurar_agitacion_y_calentamiento();					
+			menu_principal();					
 			return;
 		}
 
@@ -164,8 +167,9 @@ void activar_o_desactivar_plazas()
 		caracter = NO_KEY;
     	while(caracter == NO_KEY) {
     		caracter = teclado.getKey();
-  			if(caracter != 'C')
-    			caracter = NO_KEY;
+  			if(caracter != 'B'){
+				caracter = NO_KEY;
+			}
     	}
 		activar_o_desactivar_plazas();
 	}	
@@ -240,7 +244,7 @@ void configurar_rutina_de_calentamiento_y_agitacion()
 	colocar_elementos_de_fondo_del_menu_configurar_rutina_de_calentamiento_y_agitacion(multiparrilla.plazas_activadas, CANTIDAD_DE_PLAZAS);
 	
 	while(numero_de_rutina < CANTIDAD_MAXIMA_DE_RUTINAS) {
-		Serial.println(numero_de_rutina);
+		Serial.println(multiparrilla.tipo_de_funcion_de_temperatura[numero_de_rutina]);
 		
 		mostrar_numero_de_rutina_y_posicion_del_cursor(numero_de_rutina, posicion_del_cursor, multiparrilla.tipo_de_funcion_de_temperatura[numero_de_rutina]);
 
@@ -275,16 +279,16 @@ void configurar_rutina_de_calentamiento_y_agitacion()
 		} else if(caracter == 'C') {
 			if(verificar_si_la_rutina_ha_sido_correctamente_configurada(numero_de_rutina)) {
 				if(numero_de_rutina == CANTIDAD_MAXIMA_DE_RUTINAS - 1) {
-					confirmar_rutinas_programadas();
+					confirmar_rutinas_configuradas();
 					return;
 				} else {
 					numero_de_rutinas_configuradas++;
-					if(agregar_o_confirmar_rutinas_programadas()) {
+					if(agregar_o_confirmar_rutinas_configuradas()) {
 						numero_de_rutina++;
 						posicion_del_cursor = 0;
 						continue;
 					} else {
-						confirmar_rutinas_programadas();
+						confirmar_rutinas_configuradas();
 						return;
 					}
 				}
@@ -355,13 +359,17 @@ char establecer_segundo_setpoint_de_temperatura(const uint8_t numero_de_rutina)
 		caracter = teclado.getKey();
 		if(caracter == 'D' || caracter == 'C' || caracter == 'B') {
 			break;
-		} else if(isdigit(caracter)) {
-			valor_de_temperatura_en_texto += caracter;
-			if(valor_de_temperatura_en_texto.toInt() > 999) {
-				valor_de_temperatura_en_texto = caracter;
+		} else if(isdigit(caracter) || caracter == 'A') {
+			if(caracter == 'A') {
+				valor_de_temperatura_en_texto = "0";
+			} else {
+				valor_de_temperatura_en_texto += caracter;
+				if(valor_de_temperatura_en_texto.toInt() > 999) {
+					valor_de_temperatura_en_texto = caracter;
+				}
 			}
 			multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] = valor_de_temperatura_en_texto.toInt();
-			coloca_valor_de_temperatura_en_la_opcion_establecer_segundo_setpoint_de_temperatura(valor_de_temperatura_en_texto);
+			coloca_valor_de_temperatura_en_la_opcion_establecer_segundo_setpoint_de_temperatura(valor_de_temperatura_en_texto, multiparrilla.setpoints_temperatura[numero_de_rutina * 2]);
 		}
 	}
 	return caracter;
@@ -402,10 +410,14 @@ char establecer_minutos_para_mantener_setpoints(const uint8_t numero_de_rutina)
 		caracter = teclado.getKey();
 		if(caracter == 'D' || caracter == 'C' || caracter == 'B') {
 			break;
-		} else if(isdigit(caracter)) {
-			valor_de_tiempo_en_texto += caracter;
-			if(valor_de_tiempo_en_texto.toInt() > 9999999) {
-				valor_de_tiempo_en_texto = caracter;
+		} else if(isdigit(caracter) || caracter == 'A') {
+			if(caracter == 'A') {
+				valor_de_tiempo_en_texto = "0";
+			} else {
+				valor_de_tiempo_en_texto += caracter;
+				if(valor_de_tiempo_en_texto.toInt() > 9999999) {
+					valor_de_tiempo_en_texto = caracter;
+				}
 			}
 			multiparrilla.minutos_para_mantener_setpoints[numero_de_rutina] = valor_de_tiempo_en_texto.toInt();
 			coloca_valor_de_tiempo_en_la_opcion_establecer_minutos_para_mantener_setpoints(valor_de_tiempo_en_texto, multiparrilla.tipo_de_funcion_de_temperatura[numero_de_rutina]);
@@ -416,6 +428,9 @@ char establecer_minutos_para_mantener_setpoints(const uint8_t numero_de_rutina)
 
 bool verificar_si_la_rutina_ha_sido_correctamente_configurada(const uint8_t numero_de_rutina)
 {
+	if(multiparrilla.setpoints_temperatura[numero_de_rutina * 2] > 300) {
+		return false;
+	}
 	if(multiparrilla.setpoints_agitacion[numero_de_rutina] > 1200) {
 		return false;
 	} 
@@ -424,17 +439,8 @@ bool verificar_si_la_rutina_ha_sido_correctamente_configurada(const uint8_t nume
 	}
 
 	if(multiparrilla.tipo_de_funcion_de_temperatura[numero_de_rutina] == 'c') {
-		if(multiparrilla.setpoints_temperatura[numero_de_rutina * 2] <= 0 && multiparrilla.setpoints_agitacion[numero_de_rutina] <= 0) {
-			return false;
-		}
-		if(multiparrilla.setpoints_temperatura[numero_de_rutina * 2] > 300) {
-			return false;
-		}
 		multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] = multiparrilla.setpoints_temperatura[numero_de_rutina * 2];
 	} else {
-		if(multiparrilla.setpoints_temperatura[numero_de_rutina * 2] > 300) {
-			return false;
-		}
 		if(multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] <= 0 || multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] < multiparrilla.setpoints_temperatura[numero_de_rutina * 2]) {
 			return false;
 		} 
@@ -443,12 +449,13 @@ bool verificar_si_la_rutina_ha_sido_correctamente_configurada(const uint8_t nume
     return true;
 }
 
-bool agregar_o_confirmar_rutinas_programadas()
+bool agregar_o_confirmar_rutinas_configuradas()
 {
+	
     return true;
 }
 
-void confirmar_rutinas_programadas()
+void confirmar_rutinas_configuradas()
 {
 	for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_RUTINAS; ++i) {
 		Serial.println("Rutina " + (String)(i) + ":");
@@ -459,6 +466,10 @@ void confirmar_rutinas_programadas()
 		Serial.println("Tiempo:" + (String)(multiparrilla.minutos_para_mantener_setpoints[i]));
 		Serial.println("");
 	}
+}
+
+void menu_resumen_de_las_rutinas_configuradas()
+{
 }
 
 void monitorear_agitacion_y_temperatura()

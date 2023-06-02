@@ -67,34 +67,46 @@ void mostrar_opciones_del_menu_principal()
     pantalla.drawString("MONITOREAR", 110, 95);
     pantalla.drawString("MULTIPARRILLA", 95, 110);
 
-    pantalla.drawString("ESTADO DEL ENLACE",70, 172);
+    pantalla.drawString("ESTADO DEL ENLACE",70, 165);
+	 pantalla.drawString("Y SALIDA DE DATOS",70, 180);
 }
 
-void colocar_elementos_de_fondo_del_menu_configurar_agitacion_y_calentamiento()
+
+
+void mostrar_que_la_multiparrilla_no_esta_conectada_en_el_menu_configurar_agitacion_y_calentamiento()
 {
-	uint32_t x1_1 = 30,y1_1 = 230, x2_1 = 40, y2_1 = 230, x3_1 = 35, y3_1 = 220,
-         	 x1_2 = 75,y1_2 = 220, x2_2 = 85, y2_2 = 220, x3_2 = 80, y3_2 = 230,
-			 separacion = 10, posX = 20;
-
-	mostrar_imagen_multiparrilla();
-
-	for(uint8_t i = 0; i < 6; ++i, posX+=50) {
-		pantalla.fillRect(posX, 6, 30, 30, MY_SILVER);
-		pantalla.drawString((String)(i+1),posX + 4, 6);
-	}
-
-	pantalla.fillRect(40, 90, 250, 50, MY_BLACK);
-	pantalla.fillRect(40, 150, 250, 50, MY_BLACK);
-
-	
-	pantalla.fillTriangle(x1_1, y1_1, x2_1, y2_1, x3_1, y3_1, MY_BLACK);
-	pantalla.fillTriangle(x1_2, y1_2, x2_2, y2_2, x3_2, y3_2, MY_BLACK);
+	pantalla.fillScreen(MY_SKYBLUE);
+	pantalla.fillRect(10, 100, 300, 100, MY_YELLOW);
 	pantalla.setFreeFont(FMB9);
-	pantalla.setTextColor(MY_BLACK);
-	pantalla.drawString("C:", x1_1 - 2*separacion, y3_1 - 2);
-	pantalla.drawString("D:", x1_2 - 2*separacion, y1_2 - 2);
-	pantalla.drawString("A:ELEGIR", x1_2 + 3*separacion, y1_2 - 2);
-	pantalla.drawString("B:REGRESAR", x1_2 + 13*separacion, y1_2 - 2);
+	pantalla.fillRect(10, 10, 300, 200, MY_YELLOW);
+	pantalla.drawString(".ADVERTENCIA!", 60, 30,FONT4);
+	pantalla.drawLine(62,30,62,43, MY_BLACK);
+	pantalla.drawLine(63,30,63,43, MY_BLACK);
+	pantalla.drawString("LA COMUNICACION INALAMBRICA", 10,90);
+	pantalla.drawLine(160,90,162,88, MY_BLACK);
+	pantalla.drawLine(161,90,163,88, MY_BLACK);
+	pantalla.drawLine(236,90,238,88, MY_BLACK);
+	pantalla.drawLine(237,90,239,88, MY_BLACK);
+	pantalla.drawString("CON LA MULTIPARRILLA NO SE", 20,120);
+	pantalla.drawString("ENCUENTRA DISPONIBLE EN", 40,150);
+	pantalla.drawString("ESTE MOMENTO", 90,180);
+	pantalla.drawString("C:CONTINUAR", 10, 220);
+	pantalla.drawString("B:REGRESAR", 190, 220);
+}
+
+void mostrar_que_se_ha_restablecido_la_conexion_en_el_menu_configurar_agitacion_y_calentamiento()
+{
+	pantalla.fillScreen(MY_SKYBLUE);
+	pantalla.fillRect(10, 100, 300, 100, MY_YELLOW);
+	pantalla.setFreeFont(FMB9);
+	pantalla.fillRect(10, 10, 300, 200, MY_GREEN);
+	pantalla.drawString("LA COMUNICACION INALAMBRICA", 10,90);
+	pantalla.drawLine(160,90,162,88, MY_BLACK);
+	pantalla.drawLine(161,90,163,88, MY_BLACK);
+	pantalla.drawLine(236,90,238,88, MY_BLACK);
+	pantalla.drawLine(237,90,239,88, MY_BLACK);
+	pantalla.drawString("CON LA MULTIPARRILLA SE HA", 20,120);
+	pantalla.drawString("RESTABLECIDO", 80,150);
 }
 
 void mostrar_imagen_multiparrilla()
@@ -120,12 +132,7 @@ void resaltar_opcion_en_posicion_actual_del_menu_configurar_agitacion_y_calentam
 	}
 
 }
-void mostrar_opciones_del_menu_configurar_agitacion_y_calentamiento()
-{
-	pantalla.setFreeFont(FMB9);
-	pantalla.drawString("CONFIG. GRUPAL", 85, 108);
-    pantalla.drawString("CONFIG. INDIVIDUAL", 65, 168);
-}
+
 
 void colocar_elementos_de_fondo_del_menu_activar_o_desactivar_plazas(bool *plazas_activadas, const uint8_t cantidad_de_plazas)
 {
@@ -165,7 +172,8 @@ void desplegar_mensaje_de_que_no_se_ha_activado_ninguna_plaza()
 	pantalla.fillRect(10, 90, 300, 120, MY_YELLOW);
 	pantalla.drawString("NO SE HA ACTIVADO", 45, 95,FONT4);
 	pantalla.drawString("NINGUNA PLAZA", 60,120, FONT4);
-	pantalla.drawString("OPRIMA (C) PARA CONTINUAR", 62,150, FONT2);
+	pantalla.setFreeFont(FMB9);
+	pantalla.drawString("OPRIMA (B) PARA REGRESAR", 30,150);
 }
 
 void resaltar_opcion_en_posicion_actual_del_menu_activar_o_desactivar_plazas(bool *plazas_activadas, uint8_t indice_plaza_actual, const uint8_t cantidad_de_plazas)
@@ -344,6 +352,8 @@ void mostrar_numero_de_rutina_y_posicion_del_cursor(const uint8_t numero_de_ruti
 		pantalla.drawString("A:DESACTIVAR", 10, 205);
 	} else if(posicion_del_cursor == 1 && funcion_de_temperatura == 'r') {
 		pantalla.drawString("A:TEMP.AMBIENTE.", 10, 205);
+	} else if(posicion_del_cursor == 2 || posicion_del_cursor == 4) {
+		pantalla.drawString("A:BORRAR.", 10, 205);
 	}
 
 	if(posicion_del_cursor == 0) {
@@ -379,7 +389,7 @@ void colocar_elementos_de_la_opcion_elegir_funcion_de_calentamiento(const uint16
 	pantalla.fillRect(190, 100, 100, 15, MY_WHITE);
 	
 	if(tipo_de_funcion == 'r') {
-		pantalla.fillRect(190, 100, 120, 15, MY_YELLOW);
+		pantalla.fillRect(190, 100, 120, 15, MY_MAGENTA);
 		pantalla.drawString("RAMPA", 230, 100, FONT2);
 		pantalla.drawString("TEMP. INICIAL:", 30, 120, FONT2);
 		pantalla.drawString("TEMP. FINAL:", 30, 140, FONT2);
@@ -387,11 +397,15 @@ void colocar_elementos_de_la_opcion_elegir_funcion_de_calentamiento(const uint16
 		pantalla.drawString("AGITACION:", 30, 160, FONT2);
 		pantalla.drawString("TIEMPO:", 30, 180, FONT2);
 		if(setpoint_temperatura_2 <= 0) {
-			pantalla.drawString("SIN CONFIGURAR", 130, 140, FONT2);
+			pantalla.fillRect(115, 140, 105, 15, MY_YELLOW);
+			pantalla.drawString("SIN CONFIGURAR", 115, 140, FONT2);
 		} else {
-			pantalla.drawString((String)(setpoint_temperatura_2), 130, 140, FONT2);
-			pantalla.drawCircle(160, 142, 2, MY_BLACK);
-			pantalla.drawString("C", 165, 140, FONT2);
+			if(setpoint_temperatura_2 < setpoint_temperatura_1 || setpoint_temperatura_2 > 300) {
+				pantalla.fillRect(115, 140, 70, 15, MY_YELLOW);
+			}
+			pantalla.drawString((String)(setpoint_temperatura_2), 115, 140, FONT2);
+			pantalla.drawCircle(145, 142, 2, MY_BLACK);
+			pantalla.drawString("C", 150, 140, FONT2);
 		}
 
 		posy_setpoint_agitacion += 20;
@@ -413,6 +427,9 @@ void colocar_elementos_de_la_opcion_elegir_funcion_de_calentamiento(const uint16
 			pantalla.drawString("DESACTIVADO", 130, 120, FONT2);
 		}		
 	} else {
+		if(setpoint_temperatura_1 > 300) {
+			pantalla.fillRect(130, 120, 180, 15, MY_YELLOW);
+		}
 		pantalla.drawString((String)(setpoint_temperatura_1), 130, 120, FONT2);
 		pantalla.drawCircle(160, 122, 2, MY_BLACK);
 		pantalla.drawString("C", 165, 120, FONT2);
@@ -423,12 +440,16 @@ void colocar_elementos_de_la_opcion_elegir_funcion_de_calentamiento(const uint16
 	if(setpoint_agitacion <= 0) {
 			pantalla.drawString("DESACTIVADO", 100, posy_setpoint_agitacion, FONT2);
 	} else {
+		if(setpoint_agitacion > 1200) {
+			pantalla.fillRect(100, posy_setpoint_agitacion, 210, 15, MY_YELLOW);
+		}
 		pantalla.drawString((String)(setpoint_agitacion), 100, posy_setpoint_agitacion, FONT2);
 		pantalla.drawString("RPM", 140, posy_setpoint_agitacion, FONT2);
 		pantalla.drawString("VEL.MAX=1200 RPM", 180, posy_setpoint_agitacion, FONT2);
 	}
 
 	if(minutos_para_mantener_setpoints <= 0) {
+		pantalla.fillRect(80, posy_tiempo, 100, 15, MY_YELLOW);
 		pantalla.drawString("SIN CONFIGURAR", 80, posy_tiempo, FONT2);
 	} else {
 		pantalla.drawString((String)(minutos_para_mantener_setpoints) + " " + "MINUTOS", 80, posy_tiempo, FONT2);
@@ -448,6 +469,9 @@ void coloca_valor_de_temperatura_en_la_opcion_establecer_primer_setpoint_de_temp
 		}
 		
 	} else {
+		if(temperatura.toInt() > 300) {
+			pantalla.fillRect(130, 120, 180, 15, MY_YELLOW);
+		}
 		pantalla.drawString((String)(temperatura.toInt()), 130, 120, FONT2);
 		pantalla.drawCircle(160, 122, 2, MY_BLACK);
 		pantalla.drawString("C", 165, 120, FONT2);
@@ -457,18 +481,24 @@ void coloca_valor_de_temperatura_en_la_opcion_establecer_primer_setpoint_de_temp
 	
 }
 
-void coloca_valor_de_temperatura_en_la_opcion_establecer_segundo_setpoint_de_temperatura(const String temperatura)
+void coloca_valor_de_temperatura_en_la_opcion_establecer_segundo_setpoint_de_temperatura(const String segunda_temperatura, const uint16_t primera_temperatura)
 {
 	pantalla.setFreeFont(TT1);
-	pantalla.fillRect(130, 140, 180, 15, MY_WHITE);
-	if(temperatura.toInt() <= 0) {
-		pantalla.drawString("SIN CONFIGURAR", 130, 140, FONT2);
+	pantalla.fillRect(115, 140, 180, 15, MY_WHITE);
+	if(segunda_temperatura.toInt() <= 0) {
+		pantalla.fillRect(115, 140, 105, 15, MY_YELLOW);
+		pantalla.drawString("SIN CONFIGURAR", 115, 140, FONT2);
 	} else {
-		pantalla.drawString((String)(temperatura.toInt()), 130, 140, FONT2);
-		pantalla.drawCircle(160, 142, 2, MY_BLACK);
-		pantalla.drawString("C", 165, 140, FONT2);
+		if(segunda_temperatura.toInt() > 300 || segunda_temperatura.toInt() < primera_temperatura) {
+			pantalla.fillRect(115, 140, 105, 15, MY_YELLOW);
+		}
+		pantalla.drawString((String)(segunda_temperatura.toInt()), 115, 140, FONT2);
+		pantalla.drawCircle(145, 142, 2, MY_BLACK);
+		pantalla.drawString("C", 150, 140, FONT2);
 	}
 }
+
+
 
 void coloca_valor_de_agitacion_en_la_opcion_establecer_setpoint_de_agitacion(const String agitacion, const char funcion_de_temperatura)
 {
@@ -485,6 +515,9 @@ void coloca_valor_de_agitacion_en_la_opcion_establecer_setpoint_de_agitacion(con
 	if(agitacion.toInt() <= 0) {
 		pantalla.drawString("DESACTIVADO", 100, posy_agitacion, FONT2);
 	} else {
+		if(agitacion.toInt() > 1200) {
+			pantalla.fillRect(100, posy_agitacion, 210, 15, MY_YELLOW);
+		}
 		pantalla.drawString((String)(agitacion.toInt()), 100, posy_agitacion, FONT2);
 		pantalla.drawString("RPM", 140, posy_agitacion, FONT2);
 		pantalla.drawString("VEL.MAX=1200 RPM", 180, posy_agitacion, FONT2);
@@ -504,6 +537,7 @@ void coloca_valor_de_tiempo_en_la_opcion_establecer_minutos_para_mantener_setpoi
 	pantalla.fillRect(80, posy_tiempo, 210, 15, MY_WHITE);
 
 	if(tiempo.toInt() <= 0) {
+		pantalla.fillRect(80, posy_tiempo, 100, 15, MY_YELLOW);
 		pantalla.drawString("SIN CONFIGURAR", 80, posy_tiempo, FONT2);
 	} else {
 		pantalla.drawString((String)(tiempo.toInt()) + " " + "MINUTOS", 80, posy_tiempo, FONT2);
