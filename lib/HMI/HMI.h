@@ -45,7 +45,7 @@ uint8_t agregar_o_confirmar_rutinas_configuradas();
 
 void eliminar_rutina(const uint8_t numero_de_rutina);
 
-void confirmar_y_enviar_rutinas_configuradas();
+bool confirmar_y_enviar_rutinas_configuradas();
 
 void menu_resumen_de_las_rutinas_configuradas();
 

@@ -248,7 +248,7 @@ void configurar_rutina_de_calentamiento_y_agitacion()
 	colocar_elementos_de_fondo_del_menu_configurar_rutina_de_calentamiento_y_agitacion(multiparrilla.plazas_activadas, CANTIDAD_DE_PLAZAS);
 	
 	while(numero_de_rutina < CANTIDAD_MAXIMA_DE_RUTINAS) {
-		Serial.println(multiparrilla.tipo_de_funcion_de_temperatura[numero_de_rutina]);
+		//Serial.println(multiparrilla.tipo_de_funcion_de_temperatura[numero_de_rutina]);
 		
 		mostrar_numero_de_rutina_y_posicion_del_cursor(numero_de_rutina, posicion_del_cursor, multiparrilla.tipo_de_funcion_de_temperatura[numero_de_rutina]);
 
@@ -282,9 +282,9 @@ void configurar_rutina_de_calentamiento_y_agitacion()
 			return;
 		} else if(caracter == 'C') {
 			if(verificar_si_la_rutina_ha_sido_correctamente_configurada(numero_de_rutina)) {
+				posicion_del_cursor = 0; 
 				if(numero_de_rutina == multiparrilla.numero_de_rutinas_configuradas) {
 					uint8_t opc = agregar_o_confirmar_rutinas_configuradas();
-					posicion_del_cursor = 0; 
 					if(opc == 0) {
 						if(numero_de_rutina < CANTIDAD_MAXIMA_DE_RUTINAS - 1) {				
 							numero_de_rutina++;
@@ -292,8 +292,12 @@ void configurar_rutina_de_calentamiento_y_agitacion()
 						}
 						continue;
 					} else if(opc == 1) {
-						confirmar_y_enviar_rutinas_configuradas();
-						return;
+						bool enviar_rutinas = confirmar_y_enviar_rutinas_configuradas();
+						if(enviar_rutinas) {
+							return;
+						} else {
+							continue;
+						}
 					} else if(opc == 2) {
 						eliminar_rutina(numero_de_rutina);
 						multiparrilla.numero_de_rutinas_configuradas--;
@@ -455,7 +459,7 @@ bool verificar_si_la_rutina_ha_sido_correctamente_configurada(const uint8_t nume
 	if(multiparrilla.tipo_de_funcion_de_temperatura[numero_de_rutina] == 'c') {
 		multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] = multiparrilla.setpoints_temperatura[numero_de_rutina * 2];
 	} else {
-		if(multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] <= 0 || multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] < multiparrilla.setpoints_temperatura[numero_de_rutina * 2]) {
+		if(multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] <= 0 || multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] <= multiparrilla.setpoints_temperatura[numero_de_rutina * 2]) {
 			return false;
 		} 
 	}
@@ -493,7 +497,6 @@ uint8_t agregar_o_confirmar_rutinas_configuradas()
 
 void eliminar_rutina(const uint8_t numero_de_rutina)
 {
-	
 	multiparrilla.setpoints_agitacion[numero_de_rutina] = DESACTIVADO;
 	multiparrilla.minutos_para_mantener_setpoints[numero_de_rutina] = DESACTIVADO;
 	multiparrilla.tipo_de_funcion_de_temperatura[numero_de_rutina] = 'c';
@@ -501,8 +504,42 @@ void eliminar_rutina(const uint8_t numero_de_rutina)
 	multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] = DESACTIVADO;
 }
 
-void confirmar_y_enviar_rutinas_configuradas()
+bool confirmar_y_enviar_rutinas_configuradas()
 {
+	char caracter = NO_KEY;
+	colocar_elementos_de_fondo_en_el_menu_confirmar_y_enviar_rutinas_configuradas();
+	uint8_t configuracion = 0;
+	//Serial.println("Numero de rutunas config. :" + (String)(multiparrilla.numero_de_rutinas_configuradas));
+	while(configuracion <= multiparrilla.numero_de_rutinas_configuradas + 1) {
+		if(configuracion == 0) {
+			muestra_plazas_activadas_y_sensor_configurado(multiparrilla.plazas_activadas, CANTIDAD_DE_PLAZAS, multiparrilla.sensor_infrarrojo, multiparrilla.numero_de_rutinas_configuradas);
+		} else {
+			muestra_configuracion_de_la_rutina(configuracion, multiparrilla.numero_de_rutinas_configuradas + 1, multiparrilla.tipo_de_funcion_de_temperatura[configuracion -1], multiparrilla.setpoints_temperatura[(configuracion - 1) * 2],
+											   multiparrilla.setpoints_temperatura[(configuracion - 1) * 2 + 1], multiparrilla.setpoints_agitacion[configuracion - 1], multiparrilla.minutos_para_mantener_setpoints[configuracion - 1]);
+		}
+
+		while(caracter == NO_KEY) {
+			caracter = teclado.getKey();
+			if(caracter != 'B' && caracter != 'C') {
+				caracter = NO_KEY;
+			} 
+		}
+
+		if(caracter == 'B') {
+			if(configuracion <= 0) {
+				return false;
+			} else {
+				configuracion--;
+			}
+		} else if(caracter == 'C') {
+			if(configuracion >= multiparrilla.numero_de_rutinas_configuradas + 1) {
+				Serial.println("Final");
+			}
+			configuracion++;
+		}	
+		caracter = NO_KEY;
+	}
+	return true;
 }
 
 

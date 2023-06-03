@@ -388,6 +388,8 @@ void colocar_elementos_de_la_opcion_elegir_funcion_de_calentamiento(const uint16
 	uint32_t x1_1 = 10, y1_1 = 100, x2_1 = 10, y2_1 = 110, x3_1 = 20, y3_1 = 105;
 	pantalla.setFreeFont(TT1);
 	pantalla.fillRect(10, 100, 300, 100, MY_WHITE);
+	pantalla.fillRect(65, 80, 105, 20, MY_WHITE);
+	pantalla.drawString("NO. DE RUTINA: ", 70, 80, FONT2);
 	pantalla.drawString("FUNC. DE TEMPERATURA:", 30, 100, FONT2);
 	pantalla.fillTriangle(x1_1, y1_1, x2_1, y2_1, x3_1, y3_1, MY_BLACK);
 	if(tipo_de_funcion == 'r') {
@@ -402,7 +404,7 @@ void colocar_elementos_de_la_opcion_elegir_funcion_de_calentamiento(const uint16
 			pantalla.fillRect(115, 140, 105, 15, MY_YELLOW);
 			pantalla.drawString("SIN CONFIGURAR", 115, 140, FONT2);
 		} else {
-			if(setpoint_temperatura_2 < setpoint_temperatura_1 || setpoint_temperatura_2 > 300) {
+			if(setpoint_temperatura_2 <= setpoint_temperatura_1 || setpoint_temperatura_2 > 300) {
 				pantalla.fillRect(115, 140, 70, 15, MY_YELLOW);
 			}
 			pantalla.drawString((String)(setpoint_temperatura_2), 115, 140, FONT2);
@@ -491,7 +493,7 @@ void coloca_valor_de_temperatura_en_la_opcion_establecer_segundo_setpoint_de_tem
 		pantalla.fillRect(115, 140, 105, 15, MY_YELLOW);
 		pantalla.drawString("SIN CONFIGURAR", 115, 140, FONT2);
 	} else {
-		if(segunda_temperatura.toInt() > 300 || segunda_temperatura.toInt() < primera_temperatura) {
+		if(segunda_temperatura.toInt() > 300 || segunda_temperatura.toInt() <= primera_temperatura) {
 			pantalla.fillRect(115, 140, 105, 15, MY_YELLOW);
 		}
 		pantalla.drawString((String)(segunda_temperatura.toInt()), 115, 140, FONT2);
@@ -579,6 +581,99 @@ void resalta_opcion_en_posicion_actual_del_menu_agregar_o_confirmar_rutinas_conf
 	pantalla.drawString("CONFIGURADAS", 90, 150);
 	pantalla.drawString("ELIMINAR RUTINA", 80, 180);
 }
+void colocar_elementos_de_fondo_en_el_menu_confirmar_y_enviar_rutinas_configuradas()
+{
+	pantalla.fillScreen(MY_SKYBLUE);
+	mostrar_imagen_multiparrilla();
+	pantalla.setFreeFont(FMB9);
+	pantalla.setTextColor(MY_BLACK);
+	//pantalla.drawString("A:ELEGIR", 10, 205);
+	pantalla.drawString("B:REGRESAR", 10, 205);
+	pantalla.drawString("C:CONTINUAR", 190, 205);
+	//pantalla.drawString("D:", 190, 220);
+}
+
+void muestra_plazas_activadas_y_sensor_configurado(bool *plazas_activadas, const uint8_t cantidad_de_plazas, const bool sensor_infrarrojo, const uint8_t numero_de_rutinas_configuradas)
+{
+	uint32_t posX = 17, color;
+	pantalla.setFreeFont(FF47);
+	String plazas_activadas_texto = "", sensor;
+	for(uint8_t i = 0; i < cantidad_de_plazas; ++i, posX+=50) {
+		if(plazas_activadas[i]) {
+			color = MY_GREEN;
+			plazas_activadas_texto += (String)(i + 1) + ", ";
+		} else {
+			color = MY_SILVER;
+		}
+		pantalla.fillRect(posX, 3, 36, 36, color);
+		pantalla.drawString((String)(i + 1),posX + 7, 6);
+	}
+	plazas_activadas_texto = plazas_activadas_texto.substring(0, plazas_activadas_texto.length() - 2);
+	pantalla.setFreeFont(TT1);
+	pantalla.fillRect(65, 80, 170, 20, MY_SKYBLUE);
+	pantalla.fillRect(10, 100, 300, 100, MY_WHITE);
+	pantalla.drawString("PLAZAS ACTIVADAS: " + plazas_activadas_texto, 10, 100, FONT2);
+	if(sensor_infrarrojo) {
+		sensor = "INFRARROJO";
+	} else {
+		sensor = "TERMOPAR";
+	}
+	pantalla.drawString("SENSOR CONFIGURADO: " + sensor, 10, 120, FONT2);
+	pantalla.drawString("NO. DE RUTINAS CONFIGURADAS: " + (String)(numero_de_rutinas_configuradas + 1), 10, 140, FONT2);
+}
+
+void muestra_configuracion_de_la_rutina(const uint8_t numero_de_rutina, const uint8_t numero_de_rutinas_configuradas, const char funcion_de_temp, const uint16_t primer_setpoint_temp, const uint16_t segundo_setpoint_temp, const uint16_t agitacion, const uint32_t tiempo)
+{
+	String funcion;
+	uint8_t espacio = 0;
+	pantalla.fillRect(65, 80, 170, 20, MY_WHITE);
+	pantalla.fillRect(10, 100, 300, 100, MY_WHITE);
+	pantalla.setFreeFont(TT1);
+	pantalla.drawString("NO. DE RUTINA: " + (String)(numero_de_rutina) + " DE " + (String)(numero_de_rutinas_configuradas), 70, 80, FONT2);
+	if(funcion_de_temp == 'r'){
+		funcion = "RAMPA";
+		if(primer_setpoint_temp == 0) {
+			pantalla.drawString("TEMP. INICIAL: TEMPERATURA AMBIENTE", 10, 120, FONT2);
+		} else {
+			pantalla.drawString("TEMP. INICIAL: " + (String)(primer_setpoint_temp), 10, 120, FONT2);
+			pantalla.drawCircle(140, 122, 2, MY_BLACK);
+			pantalla.drawString("C", 145, 120, FONT2);
+		}
+		pantalla.drawString("TEMP. FINAL: " + (String)(segundo_setpoint_temp), 10, 140, FONT2);
+		pantalla.drawCircle(125, 142, 2, MY_BLACK);
+		pantalla.drawString("C", 130, 140, FONT2);
+		espacio += 20;
+	} else {
+		funcion= "CONSTANTE";
+		if(primer_setpoint_temp == 0) {
+			pantalla.drawString("TEMPERATURA: DESACTIVADO", 10, 120, FONT2);
+		} else {
+			pantalla.drawString("TEMPERATURA: " + (String)(primer_setpoint_temp), 10, 120, FONT2);
+			pantalla.drawCircle(140, 122, 2, MY_BLACK);
+			pantalla.drawString("C", 145, 120, FONT2);
+		}
+	}
+
+	if(agitacion == 0) {
+		pantalla.drawString("AGITACION: DESACTIVADA", 10, 140 + espacio, FONT2);
+	} else {
+		pantalla.drawString("AGITACION: " + (String)(agitacion) + " RMP", 10, 140 + espacio, FONT2);
+	}
+	pantalla.drawLine(63,140 + espacio,65,137 + espacio, MY_BLACK);
+	pantalla.drawString("TIEMPO: " + (String)(tiempo) + " MINUTOS",10, 160 + espacio, FONT2);
+	pantalla.drawString("FUNC. DE TEMPERATURA: " + funcion, 10, 100, FONT2);
+	
+	pantalla.fillRect(190, 205, 130, 50, MY_SKYBLUE);
+	pantalla.setFreeFont(FMB9);
+	if(numero_de_rutina >= numero_de_rutinas_configuradas) {
+		pantalla.drawString("C:CONFIRMAR", 190, 205);
+		pantalla.drawString("Y ENVIAR", 210, 225);
+	} else {
+		pantalla.drawString("C:CONTINUAR", 190, 205);
+	}
+}
+
+
 void colocar_elementos_de_fondo_del_menu_mostrar_el_estado_del_enlace()
 {
 	pantalla.fillScreen(MY_SKYBLUE);

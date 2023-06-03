@@ -68,6 +68,12 @@ void colocar_elementos_de_fondo_del_menu_agregar_o_confirmar_rutinas_configurada
 
 void resalta_opcion_en_posicion_actual_del_menu_agregar_o_confirmar_rutinas_configuradas(const uint8_t opcion);
 
+void colocar_elementos_de_fondo_en_el_menu_confirmar_y_enviar_rutinas_configuradas();
+
+void muestra_plazas_activadas_y_sensor_configurado(bool *plazas_activadas, const uint8_t cantidad_de_plazas, const bool sensor_infrarrojo, const uint8_t numero_de_rutinas_configuradas);
+
+void muestra_configuracion_de_la_rutina(const uint8_t numero_de_rutina, const uint8_t numero_de_rutinas_configuradas,const char funcion_de_temp, const uint16_t primer_setpoint_temp,
+                                         const uint16_t segundo_setpoint_temp, const uint16_t agitacion, const uint32_t tiempo);
 
 void colocar_elementos_de_fondo_del_menu_mostrar_el_estado_del_enlace();
 
