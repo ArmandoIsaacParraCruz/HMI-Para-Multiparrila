@@ -52,10 +52,13 @@ void menu_principal(){
 		if(caracter == 'A'){
 			if(opcion == 1) {
         		configurar_agitacion_y_calentamiento();
+				break;
     		} else if(opcion == 2) {
         		monitorear_agitacion_y_temperatura();
+				break;
     		} else if(opcion == 3) {
         		mostrar_el_estado_del_enlace();
+				break;
 			}  
 		} else if(caracter == 'D'){
     		opcion++;
@@ -279,17 +282,31 @@ void configurar_rutina_de_calentamiento_y_agitacion()
 		} else if(caracter == 'C') {
 			if(verificar_si_la_rutina_ha_sido_correctamente_configurada(numero_de_rutina)) {
 				if(numero_de_rutina == CANTIDAD_MAXIMA_DE_RUTINAS - 1) {
-					confirmar_rutinas_configuradas();
+					confirmar_y_enviar_rutinas_configuradas();
 					return;
 				} else {
-					numero_de_rutinas_configuradas++;
-					if(agregar_o_confirmar_rutinas_configuradas()) {
-						numero_de_rutina++;
-						posicion_del_cursor = 0;
-						continue;
+					if(numero_de_rutina == numero_de_rutinas_configuradas) {
+						uint8_t opc = agregar_o_confirmar_rutinas_configuradas(); 
+						if(opc == 0) {
+							numero_de_rutina++;
+							numero_de_rutinas_configuradas++;
+							posicion_del_cursor = 0;
+							continue;
+						} else if(opc == 1) {
+							confirmar_y_enviar_rutinas_configuradas();
+							return;
+						} else if(opc == 2) {
+							eliminar_rutina(numero_de_rutina);
+							numero_de_rutinas_configuradas--;
+							numero_de_rutina--;
+							posicion_del_cursor = 0;
+							continue;
+						} else {
+							posicion_del_cursor = 0;
+							continue;
+						}
 					} else {
-						confirmar_rutinas_configuradas();
-						return;
+						numero_de_rutina++;
 					}
 				}
 			} else {
@@ -449,24 +466,43 @@ bool verificar_si_la_rutina_ha_sido_correctamente_configurada(const uint8_t nume
     return true;
 }
 
-bool agregar_o_confirmar_rutinas_configuradas()
+uint8_t agregar_o_confirmar_rutinas_configuradas()
 {
-	
-    return true;
+	char caracter = NO_KEY;
+	uint8_t opcion = 0;
+	colocar_elementos_de_fondo_del_menu_agregar_o_confirmar_rutinas_configuradas();
+	while(true) {
+		resalta_opcion_en_posicion_actual_del_menu_agregar_o_confirmar_rutinas_configuradas(opcion);
+		while(caracter == NO_KEY) {
+			caracter = teclado.getKey();
+			if(caracter != 'A' && caracter != 'B' && caracter != 'D') {
+				caracter = NO_KEY;
+			}
+		}
+		if(caracter == 'A') {
+			break;
+		} else if(caracter == 'B'){
+			return 3;
+		} else if(caracter == 'D') {
+			opcion++;
+			if(opcion >= 3) {
+				opcion = 0;
+			}
+		}
+		caracter = NO_KEY;
+	}
+    return opcion;
 }
 
-void confirmar_rutinas_configuradas()
+void eliminar_rutina(const uint8_t numero_de_rutina)
 {
-	for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_RUTINAS; ++i) {
-		Serial.println("Rutina " + (String)(i) + ":");
-		Serial.println("Tipo de función: " + (String)(multiparrilla.tipo_de_funcion_de_temperatura[i]));
-		Serial.println("Temp1:" + (String)(multiparrilla.setpoints_temperatura[i * 2]));
-		Serial.println("Temp2: " + (String)(multiparrilla.setpoints_temperatura[i * 2 + 1]));
-		Serial.println("Agitación:" + (String)(multiparrilla.setpoints_agitacion[i]));
-		Serial.println("Tiempo:" + (String)(multiparrilla.minutos_para_mantener_setpoints[i]));
-		Serial.println("");
-	}
 }
+
+void confirmar_y_enviar_rutinas_configuradas()
+{
+}
+
+
 
 void menu_resumen_de_las_rutinas_configuradas()
 {
