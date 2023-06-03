@@ -16,6 +16,7 @@ void inicializar_datos_de_plazas(){
 		multiparrilla.setpoints_temperatura[i] = DESACTIVADO;
 	}
 	multiparrilla.sensor_infrarrojo = false;
+	multiparrilla.numero_de_rutinas_configuradas = 0;
 	no_de_funcion = 0;
 }
 
@@ -241,7 +242,7 @@ struct Multiparrilla {
 
 void configurar_rutina_de_calentamiento_y_agitacion()
 {
-	uint8_t numero_de_rutina = 0, posicion_del_cursor = 0, numero_de_rutinas_configuradas = 0;
+	uint8_t numero_de_rutina = 0, posicion_del_cursor = 0;
 	char caracter = NO_KEY;
 
 	colocar_elementos_de_fondo_del_menu_configurar_rutina_de_calentamiento_y_agitacion(multiparrilla.plazas_activadas, CANTIDAD_DE_PLAZAS);
@@ -281,34 +282,30 @@ void configurar_rutina_de_calentamiento_y_agitacion()
 			return;
 		} else if(caracter == 'C') {
 			if(verificar_si_la_rutina_ha_sido_correctamente_configurada(numero_de_rutina)) {
-				if(numero_de_rutina == CANTIDAD_MAXIMA_DE_RUTINAS - 1) {
-					confirmar_y_enviar_rutinas_configuradas();
-					return;
-				} else {
-					if(numero_de_rutina == numero_de_rutinas_configuradas) {
-						uint8_t opc = agregar_o_confirmar_rutinas_configuradas(); 
-						if(opc == 0) {
+				if(numero_de_rutina == multiparrilla.numero_de_rutinas_configuradas) {
+					uint8_t opc = agregar_o_confirmar_rutinas_configuradas();
+					posicion_del_cursor = 0; 
+					if(opc == 0) {
+						if(numero_de_rutina < CANTIDAD_MAXIMA_DE_RUTINAS - 1) {				
 							numero_de_rutina++;
-							numero_de_rutinas_configuradas++;
-							posicion_del_cursor = 0;
-							continue;
-						} else if(opc == 1) {
-							confirmar_y_enviar_rutinas_configuradas();
-							return;
-						} else if(opc == 2) {
-							eliminar_rutina(numero_de_rutina);
-							numero_de_rutinas_configuradas--;
-							numero_de_rutina--;
-							posicion_del_cursor = 0;
-							continue;
-						} else {
-							posicion_del_cursor = 0;
-							continue;
+							multiparrilla.numero_de_rutinas_configuradas++;
 						}
+						continue;
+					} else if(opc == 1) {
+						confirmar_y_enviar_rutinas_configuradas();
+						return;
+					} else if(opc == 2) {
+						eliminar_rutina(numero_de_rutina);
+						multiparrilla.numero_de_rutinas_configuradas--;
+						numero_de_rutina--;
+						continue;
 					} else {
-						numero_de_rutina++;
+						continue;
 					}
+				} else {
+					numero_de_rutina++;
 				}
+				
 			} else {
 				continue;
 			}
@@ -496,6 +493,12 @@ uint8_t agregar_o_confirmar_rutinas_configuradas()
 
 void eliminar_rutina(const uint8_t numero_de_rutina)
 {
+	
+	multiparrilla.setpoints_agitacion[numero_de_rutina] = DESACTIVADO;
+	multiparrilla.minutos_para_mantener_setpoints[numero_de_rutina] = DESACTIVADO;
+	multiparrilla.tipo_de_funcion_de_temperatura[numero_de_rutina] = 'c';
+	multiparrilla.setpoints_temperatura[numero_de_rutina * 2] = DESACTIVADO;
+	multiparrilla.setpoints_temperatura[numero_de_rutina * 2 + 1] = DESACTIVADO;
 }
 
 void confirmar_y_enviar_rutinas_configuradas()

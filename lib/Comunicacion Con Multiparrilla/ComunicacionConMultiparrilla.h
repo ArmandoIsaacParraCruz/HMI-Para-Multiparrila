@@ -18,6 +18,7 @@ struct Multiparrilla {
     char tipo_de_funcion_de_temperatura[CANTIDAD_MAXIMA_DE_RUTINAS];
     uint16_t setpoints_agitacion[CANTIDAD_MAXIMA_DE_RUTINAS]; 
     uint32_t minutos_para_mantener_setpoints[CANTIDAD_MAXIMA_DE_RUTINAS];
+    uint8_t numero_de_rutinas_configuradas;
 };
 
 void inicializar_comunicacion_con_multiparrilla();
