@@ -47,7 +47,7 @@ void eliminar_rutina(const uint8_t numero_de_rutina);
 
 bool confirmar_y_enviar_rutinas_configuradas();
 
-void menu_resumen_de_las_rutinas_configuradas();
+void transminitr_datos_de_rutinas_a_multiparrilla();
 
 void monitorear_agitacion_y_temperatura();
 

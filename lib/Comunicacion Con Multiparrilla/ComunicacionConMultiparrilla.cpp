@@ -3,8 +3,6 @@
 uint8_t mac_multiparrilla[] = {0x40, 0x91, 0x51, 0xAB , 0x1B, 0xC0};
 uint8_t mac_HMI[] = {0x0C, 0xB8, 0x15, 0xC1, 0x9A, 0xD4};
 
-
-uint8_t num = 33;
 bool mensaje_recibido_por_la_multiparrilla;
 
 void inicializar_comunicacion_con_multiparrilla()
@@ -25,29 +23,41 @@ void recibir_mensaje(const uint8_t *direccion_mac, const uint8_t *mensaje, int l
 
 void enviar_mensaje_de_prueba()
 {
-    uint8_t a[] = {'C','a', 'r','a','c','t','e','r',':',' ', (char)num};
-    ESPNow.send_message(mac_multiparrilla, a, sizeof(a));
-    for(int i = 0; i < sizeof(a); ++i)
-        Serial.printf("%c",a[i]);
-    Serial.print("  ");Serial.println(num);
-    num++;
-    if(num > 126)
-        num = 33;
-
+    uint32_t mensaje = 12022001;
+    ESPNow.send_message(mac_multiparrilla, reinterpret_cast<uint8_t*>(&mensaje), sizeof(mensaje));
+    Serial.print("Mensaje de prueba: ");Serial.println(mensaje);
 }
 
 bool enviar_rutinas(Multiparrilla mensaje_rutina)
 {
-    Serial.print("Sensor infrarrojo: ");Serial.println(mensaje_rutina.sensor_infrarrojo);
+    Serial.print("Sensor infrarrojo: ");
+    if(mensaje_rutina.sensor_infrarrojo) {
+        Serial.println("Ingrarrojo");
+    } else {
+        Serial.println("Termopares");
+    }
     Serial.println("Plazas_activadas:");
     for(uint8_t i = 0; i < CANTIDAD_DE_PLAZAS; ++i) {
         Serial.print(i+1);Serial.print(": ");Serial.println(mensaje_rutina.plazas_activadas[i]);
     }
 
+    Serial.print("Rutinas configuradas: "); Serial.println(mensaje_rutina.numero_de_rutinas_configuradas);
+
     Serial.println(" ");
     Serial.println("Setpoints de temperatura:");
-    for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_RUTINAS * 2; ++i) {
-        Serial.println(mensaje_rutina.setpoints_temperatura[i]);
+    for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_RUTINAS; ++i) {
+        if(mensaje_rutina.setpoints_temperatura[i * 2] == 0) {
+            Serial.print("Desactivado");
+        } else {
+            Serial.print(mensaje_rutina.setpoints_temperatura[i]);
+        }
+        Serial.print("  ");
+        if(mensaje_rutina.setpoints_temperatura[i * 2 + 1] == 0) {
+            Serial.println("Desactivado");
+        } else {
+            Serial.println(mensaje_rutina.setpoints_temperatura[i * 2 + 1]);
+        }
+        
     }
 
     Serial.println(" ");
@@ -67,7 +77,7 @@ bool enviar_rutinas(Multiparrilla mensaje_rutina)
     for(uint8_t i = 0; i < CANTIDAD_MAXIMA_DE_RUTINAS; ++i) {
         Serial.println(mensaje_rutina.minutos_para_mantener_setpoints[i]);
     }
-    
+    Serial.println(sizeof(mensaje_rutina));
     ESPNow.send_message(mac_multiparrilla, reinterpret_cast<uint8_t*>(&mensaje_rutina), sizeof(mensaje_rutina));
 
 

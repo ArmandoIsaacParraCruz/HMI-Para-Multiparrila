@@ -294,6 +294,7 @@ void configurar_rutina_de_calentamiento_y_agitacion()
 					} else if(opc == 1) {
 						bool enviar_rutinas = confirmar_y_enviar_rutinas_configuradas();
 						if(enviar_rutinas) {
+							transminitr_datos_de_rutinas_a_multiparrilla();
 							return;
 						} else {
 							continue;
@@ -542,10 +543,9 @@ bool confirmar_y_enviar_rutinas_configuradas()
 	return true;
 }
 
-
-
-void menu_resumen_de_las_rutinas_configuradas()
+void transminitr_datos_de_rutinas_a_multiparrilla()
 {
+	enviar_rutinas(multiparrilla);
 }
 
 void monitorear_agitacion_y_temperatura()
